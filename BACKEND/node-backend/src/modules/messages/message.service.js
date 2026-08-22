@@ -40,3 +40,24 @@ export async function editMessage({ messageId, userId, text }) {
 
   const { ciphertext, keyVersion } = await encryptionClient.encrypt(text);
   message.ciphertext = ciphertext;
+  message.keyVersion = keyVersion;
+  message.editedAt = new Date();
+  await message.save();
+
+  return { room: `${message.contextType}:${message.contextId}`, message: { ...message.toJSON(), text } };
+}
+
+export async function deleteMessage({ messageId, userId }) {
+  const message = await Message.findById(messageId);
+  if (!message) throw new ApiError(404, 'Message not found');
+  if (String(message.senderId) !== String(userId)) throw new ApiError(403, "Cannot delete another member's message");
+
+  message.deletedAt = new Date();
+  await message.save();
+  return { room: `${message.contextType}:${message.contextId}`, messageId: message.id };
+}
+
+export async function markSeen({ messageId, userId }) {
+  const message = await Message.findById(messageId);
+  if (!message) throw new ApiError(404, 'Message not found');
+
