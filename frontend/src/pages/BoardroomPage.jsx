@@ -337,3 +337,115 @@ function CreateBoardroomModal({ onClose, onCreated }) {
     return () => clearTimeout(handle);
   }, [query, user.id]);
 
+  async function submit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      const boardroom = await api.post('/boardrooms', { name, description, memberIds: selected.map((m) => m.id) });
+      onCreated(boardroom.id);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <Modal title="Create Boardroom" onClose={onClose}>
+      <form onSubmit={submit} className="space-y-4">
+        <input
+          className="w-full glass-input bg-transparent border-0 border-b border-outline-variant/30 text-on-surface font-body-lg py-3 px-2 focus:ring-0"
+          placeholder="Boardroom name"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <textarea
+          className="w-full glass-input bg-transparent border-0 border-b border-outline-variant/30 text-on-surface font-body-lg py-3 px-2 focus:ring-0 resize-none"
+          placeholder="Description"
+          rows={2}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <div className="relative">
+          <input
+            className="w-full glass-input bg-transparent border-0 border-b border-outline-variant/30 text-on-surface font-body-lg py-3 px-2 focus:ring-0"
+            placeholder="Add members..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          {results.length > 0 && (
+            <div className="absolute z-10 w-full bg-surface-container-high border border-outline-variant/30 rounded-lg mt-1 max-h-40 overflow-y-auto">
+              {results.map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  className="w-full text-left px-4 py-2 hover:bg-white/5 font-body-sm text-body-sm"
+                  onClick={() => {
+                    if (!selected.find((s) => s.id === r.id)) setSelected([...selected, r]);
+                    setQuery('');
+                    setResults([]);
+                  }}
+                >
+                  {r.username}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        {selected.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {selected.map((m) => (
+              <span key={m.id} className="px-3 py-1 rounded-full bg-surface-variant text-on-surface font-label-caps text-[11px] flex items-center gap-1">
+                {m.username}
+                <button type="button" onClick={() => setSelected(selected.filter((s) => s.id !== m.id))}>
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+        <button className="btn-gold w-full rounded-lg py-3 font-title-md text-title-md" type="submit" disabled={submitting || !name.trim()}>
+          {submitting ? 'Creating...' : 'Create Boardroom'}
+        </button>
+      </form>
+    </Modal>
+  );
+}
+
+function AddMemberModal({ boardroomId, existingIds, onClose, onAdded }) {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    if (!query.trim()) return setResults([]);
+    const handle = setTimeout(async () => {
+      const r = await api.get(`/users?q=${encodeURIComponent(query.trim())}`);
+      setResults(r.items.filter((u) => !existingIds.includes(u.id)));
+    }, 250);
+    return () => clearTimeout(handle);
+  }, [query, existingIds]);
+
+  async function add(userId) {
+    await api.post(`/boardrooms/${boardroomId}/members`, { userId });
+    onAdded();
+  }
+
+  return (
+    <Modal title="Add Member" onClose={onClose}>
+      <input
+        className="w-full glass-input bg-transparent border-0 border-b border-outline-variant/30 text-on-surface font-body-lg py-3 px-2 focus:ring-0 mb-4"
+        placeholder="Search members..."
+        autoFocus
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <div className="space-y-2">
+        {results.map((r) => (
+          <button key={r.id} type="button" onClick={() => add(r.id)} className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 text-left">
+            <Avatar name={r.username} avatarUrl={r.avatarUrl} size={36} />
+            <span className="font-body-lg text-body-lg">{r.username}</span>
+          </button>
+        ))}
+      </div>
+    </Modal>
+  );
+}
