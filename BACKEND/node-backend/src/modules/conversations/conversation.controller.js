@@ -21,3 +21,10 @@ export const getMessages = catchAsync(async (req, res) => {
   await conversationService.assertParticipant(req.params.id, req.user.id);
   const messages = await messageService.listMessages({
     contextType: CONTEXT_TYPE.CONVERSATION,
+    contextId: req.params.id,
+    userId: req.user.id,
+    cursor: req.query.cursor,
+    limit: req.query.limit,
+  });
+  res.json({ success: true, data: messages });
+});
