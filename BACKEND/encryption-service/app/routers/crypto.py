@@ -20,3 +20,14 @@ router = APIRouter(dependencies=[Depends(verify_service_signature)])
 def encrypt(payload: EncryptRequest):
     ciphertext, key_version = aes_service.encrypt(payload.plaintext)
     return EncryptResponse(ciphertext=ciphertext, keyVersion=key_version)
+
+
+@router.post("/decrypt", response_model=DecryptResponse)
+def decrypt(payload: DecryptRequest):
+    plaintext = aes_service.decrypt(payload.ciphertext, payload.keyVersion)
+    return DecryptResponse(plaintext=plaintext)
+
+
+@router.post("/encrypt/batch", response_model=EncryptBatchResponse)
+def encrypt_batch(payload: EncryptBatchRequest):
+    items = []
