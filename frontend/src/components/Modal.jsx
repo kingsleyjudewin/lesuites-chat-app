@@ -10,3 +10,7 @@ export function Modal({ title, onClose, children, wide = false }) {
         </button>
         <h3 className="font-headline-lg text-headline-lg mb-6">{title}</h3>
         {children}
+      </div>
+    </div>
+  );
+}
