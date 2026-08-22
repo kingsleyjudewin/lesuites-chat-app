@@ -28,3 +28,13 @@ export function initSocketServer(httpServer) {
   io.on('connection', (socket) => {
     socket.join(`user:${socket.userId}`);
     logger.debug(`Socket connected: user=${socket.userId} socket=${socket.id}`);
+
+    registerPresenceHandlers(io, socket);
+    registerMessagingHandlers(io, socket);
+    registerBoardroomHandlers(io, socket);
+    registerNotificationHandlers(io, socket);
+  });
+
+  setIO(io);
+  return io;
+}
