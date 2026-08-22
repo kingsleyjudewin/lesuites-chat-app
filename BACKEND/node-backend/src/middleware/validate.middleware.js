@@ -6,3 +6,5 @@ export const validate = (schema, source = 'body') => (req, res, next) => {
     return next(new ApiError(400, 'Validation failed', result.error.flatten().fieldErrors));
   }
   req[source] = result.data;
+  next();
+};
