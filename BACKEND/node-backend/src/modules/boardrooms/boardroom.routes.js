@@ -12,3 +12,7 @@ router.get('/', boardroomController.list);
 router.get('/:id', boardroomController.getById);
 router.get('/:id/messages', boardroomController.getMessages);
 router.post('/:id/members', validate(addMemberSchema), boardroomController.addMember);
+router.delete('/:id/members/:userId', boardroomController.removeMember);
+router.post('/:id/leave', boardroomController.leaveBoardroom);
+
+export default router;
