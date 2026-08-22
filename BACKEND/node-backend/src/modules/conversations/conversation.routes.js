@@ -6,3 +6,6 @@ import { createConversationSchema } from './conversation.validation.js';
 
 const router = Router();
 router.use(authenticate);
+
+router.get('/', conversationController.list);
+router.post('/', validate(createConversationSchema), conversationController.create);
