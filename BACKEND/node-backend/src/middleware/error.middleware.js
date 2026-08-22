@@ -10,3 +10,9 @@ export function errorHandler(err, req, res, next) {
   const statusCode = err instanceof ApiError ? err.statusCode : 500;
   const message = err.isOperational ? err.message : 'Internal server error';
 
+  if (!err.isOperational) {
+    logger.error(err);
+  }
+
+  res.status(statusCode).json({
+    success: false,
