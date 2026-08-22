@@ -36,3 +36,22 @@ export async function assertOwner(boardroomId, userId) {
     _id: boardroomId,
     members: { $elemMatch: { userId, role: BOARDROOM_ROLE.OWNER } },
   });
+  if (!boardroom) throw new ApiError(403, 'Only the boardroom owner can perform this action');
+  return boardroom;
+}
+
+export async function addMember(boardroomId, actingUserId, newUserId) {
+  await assertOwner(boardroomId, actingUserId);
+  const boardroom = await Boardroom.findOneAndUpdate(
+    { _id: boardroomId, 'members.userId': { $ne: newUserId } },
+    { $push: { members: { userId: newUserId, role: BOARDROOM_ROLE.MEMBER } } },
+    { new: true }
+  );
+  if (!boardroom) throw new ApiError(409, 'User is already a member');
+  await logActivity(newUserId, ACTIVITY_TYPE.JOINED_BOARDROOM, boardroomId);
+  return boardroom;
+}
+
+export async function removeMember(boardroomId, actingUserId, targetUserId) {
+  await assertOwner(boardroomId, actingUserId);
+  const boardroom = await Boardroom.findByIdAndUpdate(boardroomId, { $pull: { members: { userId: targetUserId } } }, { new: true });
