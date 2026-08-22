@@ -26,3 +26,17 @@ export async function createPresignedUpload(userId, { contextType, contextId, fi
   await assertAccess(contextType, contextId, userId);
 
   const storageKey = `${contextType}/${contextId}/${crypto.randomUUID()}-${fileName}`;
+  const command = new PutObjectCommand({ Bucket: env.S3_BUCKET, Key: storageKey, ContentType: mimeType, ContentLength: size });
+  const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 300 });
+
+  return { uploadUrl, storageKey };
+}
+
+export async function confirmUpload(userId, data) {
+  await assertAccess(data.contextType, data.contextId, userId);
+  return FileAttachment.create({ uploaderId: userId, ...data });
+}
+
+export async function getDownloadUrl(userId, fileId) {
+  const file = await FileAttachment.findById(fileId);
+  if (!file) throw new ApiError(404, 'File not found');
