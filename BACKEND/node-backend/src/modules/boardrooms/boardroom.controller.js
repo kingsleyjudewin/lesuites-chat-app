@@ -37,3 +37,16 @@ export const addMember = catchAsync(async (req, res) => {
   getIO().to(`boardroom:${req.params.id}`).emit('boardroom_member_added', event);
   getIO().to(`user:${req.body.userId}`).emit('boardroom_member_added', event);
   res.json({ success: true, data: boardroom });
+});
+
+export const removeMember = catchAsync(async (req, res) => {
+  const boardroom = await boardroomService.removeMember(req.params.id, req.user.id, req.params.userId);
+  getIO().to(`boardroom:${req.params.id}`).emit('boardroom_member_removed', { boardroomId: req.params.id, userId: req.params.userId });
+  res.json({ success: true, data: boardroom });
+});
+
+export const leaveBoardroom = catchAsync(async (req, res) => {
+  const boardroom = await boardroomService.leave(req.params.id, req.user.id);
+  getIO().to(`boardroom:${req.params.id}`).emit('boardroom_member_removed', { boardroomId: req.params.id, userId: req.user.id });
+  res.json({ success: true, data: boardroom });
+});
