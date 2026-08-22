@@ -14,3 +14,10 @@ export default function App() {
       <AuthProvider>
         <SocketProvider>
           <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/messages" element={<MessagingPage />} />
+              <Route path="/boardrooms" element={<BoardroomPage />} />
+              <Route path="/members" element={<MemberActivityPage />} />
+            </Route>
