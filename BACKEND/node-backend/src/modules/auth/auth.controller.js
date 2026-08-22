@@ -20,3 +20,14 @@ function respondWithAuth(res, { user, accessToken, refreshToken }, status = 200)
   res.cookie(REFRESH_COOKIE, refreshToken, cookieOptions);
   res.status(status).json({ success: true, data: { user, accessToken } });
 }
+
+export const register = catchAsync(async (req, res) => {
+  const result = await authService.register(req.body, meta(req));
+  respondWithAuth(res, result, 201);
+});
+
+export const login = catchAsync(async (req, res) => {
+  const result = await authService.login(req.body, meta(req));
+  respondWithAuth(res, result);
+});
+
