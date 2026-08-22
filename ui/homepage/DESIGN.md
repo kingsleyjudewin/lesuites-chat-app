@@ -55,3 +55,59 @@ typography:
     fontWeight: '700'
     lineHeight: '1.1'
     letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Playfair Display
+    fontSize: 32px
+    fontWeight: '600'
+    lineHeight: '1.2'
+  headline-lg-mobile:
+    fontFamily: Playfair Display
+    fontSize: 24px
+    fontWeight: '600'
+    lineHeight: '1.2'
+  title-md:
+    fontFamily: Inter
+    fontSize: 18px
+    fontWeight: '600'
+    lineHeight: '1.5'
+    letterSpacing: 0.01em
+  body-lg:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: '1.6'
+  body-sm:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: '1.5'
+  label-caps:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '700'
+    lineHeight: '1.0'
+    letterSpacing: 0.1em
+rounded:
+  sm: 0.125rem
+  DEFAULT: 0.25rem
+  md: 0.375rem
+  lg: 0.5rem
+  xl: 0.75rem
+  full: 9999px
+spacing:
+  unit: 4px
+  margin-safe: 32px
+  gutter: 24px
+  panel-padding: 40px
+---
+
+## Brand & Style
+
+The design system is engineered for an ultra-luxury executive environment, evoking the exclusivity of a private members' club. The aesthetic is rooted in **Dark Minimalism** with a **Glassmorphic** layer, utilizing deep obsidian tones to provide a high-contrast stage for metallic accents. The emotional response is one of absolute privacy, prestige, and effortless power.
+
+Key visual pillars include:
+- **Atmospheric Depth:** Multi-layered blacks creating a sense of infinite space.
+- **Metallic Precision:** Accents that mimic brushed gold and polished chrome.
+- **Tactile Refinement:** Subtle textures reminiscent of black marble and high-grade leather.
+- **Motion Elegance:** Slow, purposeful transitions and "glint" animations on hover to simulate light hitting metal.
+
