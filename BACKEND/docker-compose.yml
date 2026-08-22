@@ -6,3 +6,11 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  encryption-service:
+    build: ./encryption-service
+    restart: unless-stopped
+    env_file: ./encryption-service/.env
+    ports:
