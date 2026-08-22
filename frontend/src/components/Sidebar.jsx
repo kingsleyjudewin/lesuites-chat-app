@@ -32,3 +32,20 @@ export function Sidebar() {
             key={item.to}
             to={item.to}
             end={item.end}
+            className={({ isActive }) =>
+              `group flex items-center gap-4 px-8 py-4 font-title-md text-title-md transition-all duration-300 ${
+                isActive
+                  ? 'text-primary border-r-2 border-primary bg-gradient-to-r from-primary/10 to-transparent'
+                  : 'text-on-surface-variant/60 hover:text-on-surface hover:bg-white/5'
+              }`
+            }
+          >
+            <span className="material-symbols-outlined group-hover:scale-110 transition-transform duration-500">{item.icon}</span>
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
+      </div>
+
+      <div className="px-8 mt-4 flex flex-col gap-3">
+        <button
+          onClick={() => navigate('/boardrooms?create=1')}
