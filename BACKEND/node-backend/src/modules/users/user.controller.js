@@ -10,3 +10,8 @@ export const updateMe = catchAsync(async (req, res) => {
   const user = await userService.updateProfile(req.user.id, req.body);
   res.json({ success: true, data: user });
 });
+
+export const getById = catchAsync(async (req, res) => {
+  const user = await userService.getById(req.params.id);
+  res.json({ success: true, data: user });
+});
