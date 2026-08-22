@@ -28,3 +28,17 @@ export function registerMessagingHandlers(io, socket) {
   });
 
   socket.on('send_message', async (payload, ack) => {
+    try {
+      const data = sendMessageSchema.parse(payload);
+      const message = await messageService.sendMessage({ senderId: userId, ...data });
+      io.to(`${data.contextType}:${data.contextId}`).emit('receive_message', message);
+      ack?.({ success: true, message });
+    } catch (err) {
+      logger.error('send_message failed', err);
+      ack?.({ success: false, error: err.message });
+    }
+  });
+
+  socket.on('message_seen', async ({ messageId }) => {
+    try {
+      const { message, room } = await messageService.markSeen({ messageId, userId });
