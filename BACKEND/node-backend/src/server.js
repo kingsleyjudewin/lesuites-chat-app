@@ -19,3 +19,9 @@ start().catch((err) => {
 });
 
 process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
+function shutdown() {
+  logger.info('Shutting down gracefully...');
+  httpServer.close(() => process.exit(0));
+}
