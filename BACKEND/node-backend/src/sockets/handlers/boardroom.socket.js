@@ -13,3 +13,8 @@ export function registerBoardroomHandlers(io, socket) {
     }
   });
 
+  socket.on('leave_boardroom', (boardroomId, ack) => {
+    socket.leave(`boardroom:${boardroomId}`);
+    ack?.({ success: true });
+  });
+}
