@@ -74,3 +74,79 @@
                         "panel-padding": "40px",
                         "margin-safe": "32px"
                     },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "title-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "1.5", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #16130b; color: #eae1d4; }
+        .glass-panel { background: rgba(30, 26, 17, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .gold-glint { position: relative; overflow: hidden; }
+        .gold-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(212, 175, 55, 0.2) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); opacity: 0; pointer-events: none; }
+        .gold-glint:hover::after { left: 100%; opacity: 1; }
+        .gold-separator { height: 1px; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent); }
+        .marble-bg { background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>'); }
+        
+        /* SideNav Styles from JSON */
+        .sidenav-container { @apply bg-surface-container-lowest/90 backdrop-blur-2xl h-screen w-80 fixed left-0 top-0 border-r border-white/5 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.5)] flex flex-col py-panel-padding; }
+        .sidenav-active { @apply text-primary border-r-2 border-primary bg-gradient-to-r from-primary/10 to-transparent; }
+        .sidenav-inactive { @apply text-on-surface-variant/60 hover:text-on-surface; }
+        .sidenav-item { @apply hover:bg-white/5 transition-all duration-300 group transition-transform duration-500 cursor-pointer; }
+    </style>
+</head>
+<body class="font-body-lg overflow-hidden flex h-screen">
+<!-- Background Shader -->
+
+<!-- SideNavBar (JSON Context) -->
+<nav class="sidenav-container z-50">
+<div class="px-gutter mb-8">
+<h1 class="font-display-lg text-display-lg text-primary mb-2">LeSuits</h1>
+<div class="flex items-center gap-4 mt-8 p-4 rounded-xl glass-panel">
+<img class="w-12 h-12 rounded-full object-cover border border-outline/30" data-alt="A cinematic, high-contrast portrait of an executive leader in a dark, luxurious office environment, sharp focus, metallic accents, moody lighting, professional, ultra-premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjORKahEYMx31nAdbWnYxt6Sj0pHoVkdjfsojJd2vWNESC_FvXYzKgajda_6t9BIgPCzivGvFK8awsmaBTsZheTXdvkgrVgLti8vYontK6S7Egz1QTlclVgbQ40pGErYTPpjMe8NKzUSRMaGyuM-_OrZ8IMVtMVjjCYMuYnBygHE7LgVvN7XQ6i-T-HsBjbKut0I6HA6anfJr-XtazMWTFfde6W2Wi10WJSk9_7AAZ6bYAEgUKIDdzYA"/>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Executive Portal</div>
+<div class="font-label-caps text-label-caps text-primary/80 mt-1">Verified Member</div>
+</div>
+</div>
+</div>
+<div class="flex-1 px-4 flex flex-col gap-2 mt-8">
+<div class="sidenav-item sidenav-inactive flex items-center gap-4 px-4 py-3 rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat_bubble</span>
+<span class="font-title-md text-title-md">Messages</span>
+</div>
+<!-- Active State based on prompt: Boardroom -->
+<div class="sidenav-item sidenav-active flex items-center gap-4 px-4 py-3 rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="font-title-md text-title-md">Boardroom</span>
+</div>
+<div class="sidenav-item sidenav-inactive flex items-center gap-4 px-4 py-3 rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">diversity_3</span>
+<span class="font-title-md text-title-md">Member Activity</span>
+</div>
+</div>
+<div class="px-gutter mt-auto">
+<button class="w-full bg-gradient-to-r from-primary-container to-primary text-on-primary font-title-md text-title-md py-4 rounded-xl gold-glint shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                New Briefing
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-80 flex-1 flex h-screen overflow-hidden">
