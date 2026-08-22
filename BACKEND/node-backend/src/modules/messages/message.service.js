@@ -19,3 +19,24 @@ export async function sendMessage({ senderId, contextType, contextId, text }) {
   return { ...message.toJSON(), text };
 }
 
+export async function listMessages({ contextType, contextId, userId, cursor, limit = 30 }) {
+  await assertAccess(contextType, contextId, userId);
+
+  const filter = { contextType, contextId, deletedAt: null };
+  if (cursor) filter._id = { $lt: cursor };
+
+  const messages = await Message.find(filter).sort({ _id: -1 }).limit(limit);
+  const decrypted = messages.length
+    ? await encryptionClient.decryptBatch(messages.map((m) => ({ ciphertext: m.ciphertext, keyVersion: m.keyVersion })))
+    : [];
+
+  return messages.map((m, i) => ({ ...m.toJSON(), text: decrypted[i]?.plaintext })).reverse();
+}
+
+export async function editMessage({ messageId, userId, text }) {
+  const message = await Message.findById(messageId);
+  if (!message) throw new ApiError(404, 'Message not found');
+  if (String(message.senderId) !== String(userId)) throw new ApiError(403, "Cannot edit another member's message");
+
+  const { ciphertext, keyVersion } = await encryptionClient.encrypt(text);
+  message.ciphertext = ciphertext;
