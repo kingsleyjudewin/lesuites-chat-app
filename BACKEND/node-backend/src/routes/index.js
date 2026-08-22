@@ -18,3 +18,9 @@ router.use('/conversations', conversationRoutes);
 router.use('/messages', messageRoutes);
 router.use('/boardrooms', boardroomRoutes);
 router.use('/presence', presenceRoutes);
+router.use('/connections', connectionRoutes);
+router.use('/files', fileRoutes);
+router.use('/notifications', notificationRoutes);
+router.use('/activity', activityRoutes);
+
+export default router;
