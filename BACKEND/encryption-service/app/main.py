@@ -7,3 +7,6 @@ app = FastAPI(title="LeSuits Encryption Service")
 app.include_router(crypto_router)
 
 
+@app.get("/health")
+def health():
+    return {"success": True, "status": "ok"}
