@@ -7,3 +7,6 @@ export const list = catchAsync(async (req, res) => {
 });
 
 export const markRead = catchAsync(async (req, res) => {
+  const notification = await notificationService.markRead({ notificationId: req.params.id, userId: req.user.id });
+  res.json({ success: true, data: notification });
+});
