@@ -25,3 +25,12 @@ export function relativeTime(dateInput) {
 export function timeOnly(dateInput) {
   if (!dateInput) return '';
   return new Date(dateInput).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+}
+
+/** Coarse, honestly-labeled heuristic — not a backend-computed metric. */
+export function activityLevel({ boardroomsJoined = 0, connectionsCount = 0 }) {
+  const score = boardroomsJoined + connectionsCount;
+  if (score >= 8) return 'High';
+  if (score >= 3) return 'Medium';
+  return 'Low';
+}
