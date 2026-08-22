@@ -14,3 +14,11 @@ const boardroomSchema = new mongoose.Schema(
       },
     ],
   },
+  { timestamps: true }
+);
+
+boardroomSchema.index({ 'members.userId': 1 });
+
+boardroomSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    ret.id = ret._id.toString();
