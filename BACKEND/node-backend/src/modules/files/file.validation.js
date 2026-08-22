@@ -22,3 +22,10 @@ export const presignSchema = z.object({
 });
 
 export const confirmUploadSchema = z.object({
+  storageKey: z.string(),
+  contextType: z.enum(['conversation', 'boardroom']),
+  contextId: z.string(),
+  originalName: z.string(),
+  mimeType: z.enum(ALLOWED_MIME_TYPES),
+  size: z.number().int().positive(),
+});
