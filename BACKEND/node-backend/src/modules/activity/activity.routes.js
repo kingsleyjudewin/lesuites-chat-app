@@ -7,3 +7,5 @@ router.use(authenticate);
 
 router.get('/:id', activityController.getUserActivity);
 router.get('/:id/sidebar', activityController.getSidebar);
+
+export default router;
