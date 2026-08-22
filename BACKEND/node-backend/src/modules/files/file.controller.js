@@ -10,3 +10,8 @@ export const confirm = catchAsync(async (req, res) => {
   const file = await fileService.confirmUpload(req.user.id, req.body);
   res.status(201).json({ success: true, data: file });
 });
+
+export const downloadUrl = catchAsync(async (req, res) => {
+  const url = await fileService.getDownloadUrl(req.user.id, req.params.id);
+  res.json({ success: true, data: { url } });
+});
