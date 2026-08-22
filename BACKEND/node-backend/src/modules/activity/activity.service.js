@@ -9,3 +9,8 @@ export async function logActivity(userId, type, refId = null) {
 
 export async function getFeed(userId, limit = 20) {
   return ActivityEvent.find({ userId }).sort({ createdAt: -1 }).limit(limit);
+}
+
+// Backs the Member Activity sidebar's "Network Intelligence" panel: boardrooms joined + accepted connections, in one round trip.
+export async function getOnlineSidebar(userId) {
+  const [boardroomsJoined, connectionsCount] = await Promise.all([
