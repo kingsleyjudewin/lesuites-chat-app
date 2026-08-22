@@ -9,3 +9,14 @@ export async function sendRequest(senderId, receiverId) {
 
   const existing = await ConnectionRequest.findOne({
     $or: [
+      { sender: senderId, receiver: receiverId },
+      { sender: receiverId, receiver: senderId },
+    ],
+  });
+  if (existing) throw new ApiError(409, `Connection request already ${existing.status}`);
+
+  const request = await ConnectionRequest.create({ sender: senderId, receiver: receiverId });
+  await createNotification(receiverId, NOTIFICATION_TYPE.CONNECTION_REQUEST, { fromUserId: senderId, requestId: request.id });
+  return request;
+}
+
