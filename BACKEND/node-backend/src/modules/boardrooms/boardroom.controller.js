@@ -24,3 +24,16 @@ export const getMessages = catchAsync(async (req, res) => {
   const messages = await messageService.listMessages({
     contextType: CONTEXT_TYPE.BOARDROOM,
     contextId: req.params.id,
+    userId: req.user.id,
+    cursor: req.query.cursor,
+    limit: req.query.limit,
+  });
+  res.json({ success: true, data: messages });
+});
+
+export const addMember = catchAsync(async (req, res) => {
+  const boardroom = await boardroomService.addMember(req.params.id, req.user.id, req.body.userId);
+  const event = { boardroomId: req.params.id, userId: req.body.userId };
+  getIO().to(`boardroom:${req.params.id}`).emit('boardroom_member_added', event);
+  getIO().to(`user:${req.body.userId}`).emit('boardroom_member_added', event);
+  res.json({ success: true, data: boardroom });
