@@ -12,3 +12,10 @@ async function start() {
   await connectDB();
   httpServer.listen(env.PORT, () => logger.info(`LeSuits backend listening on port ${env.PORT}`));
 }
+
+start().catch((err) => {
+  logger.error('Failed to start server', err);
+  process.exit(1);
+});
+
+process.on('SIGTERM', shutdown);
