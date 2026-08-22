@@ -44,3 +44,25 @@ module.exports = {
         outline: '#99907c',
         error: '#ffb4ab',
         'surface-bright': '#3d392f',
+        background: '#16130b',
+        'secondary-fixed-dim': '#c3c0ff',
+        'surface-container-low': '#1f1b13',
+        'on-secondary-fixed-variant': '#3323cc',
+        'surface-variant': '#38342b',
+        'surface-container-lowest': '#110e07',
+        'primary-container': '#d4af37',
+        'tertiary-fixed': '#85f8c4',
+      },
+      // "full" intentionally left as Tailwind's native 9999px — DESIGN.md requires avatars/pulse
+      // indicators to stay perfectly circular, which the mockups' own override (0.75rem) breaks.
+      borderRadius: {
+        DEFAULT: '0.125rem',
+        lg: '0.25rem',
+        xl: '0.5rem',
+      },
+      spacing: {
+        unit: '4px',
+        'margin-safe': '32px',
+        gutter: '24px',
+        'panel-padding': '40px',
+      },
