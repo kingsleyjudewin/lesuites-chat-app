@@ -16,3 +16,9 @@ export const authLimiter = rateLimit({
 });
 
 export const messageLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Sending messages too fast.',
+});
