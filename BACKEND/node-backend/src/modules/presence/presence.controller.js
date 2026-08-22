@@ -10,3 +10,6 @@ export const getStatus = catchAsync(async (req, res) => {
 });
 
 export const setStatus = catchAsync(async (req, res) => {
+  await presenceService.setStatus(req.user.id, req.body.status);
+  res.json({ success: true, data: { status: req.body.status } });
+});
