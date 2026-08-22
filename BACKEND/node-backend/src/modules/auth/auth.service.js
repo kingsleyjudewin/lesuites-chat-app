@@ -61,3 +61,24 @@ export async function refresh(oldToken, meta) {
 
   if (!stored || stored.revokedAt || stored.expiresAt < new Date()) {
     if (stored?.revokedAt) {
+      // A revoked token being replayed means it was stolen — kill every active token for this user.
+      await RefreshToken.updateMany({ userId: stored.userId, revokedAt: null }, { revokedAt: new Date() });
+    }
+    throw new ApiError(401, 'Invalid refresh token');
+  }
+
+  stored.revokedAt = new Date();
+  await stored.save();
+
+  const user = await User.findById(stored.userId);
+  if (!user) throw new ApiError(401, 'Invalid refresh token');
+
+  const accessToken = signAccessToken(user);
+  const refreshToken = await issueRefreshToken(user.id, meta);
+  return { user, accessToken, refreshToken };
+}
+
+export async function logout(token) {
+  if (!token) return;
+  await RefreshToken.updateOne({ tokenHash: hashToken(token) }, { revokedAt: new Date() });
+}
