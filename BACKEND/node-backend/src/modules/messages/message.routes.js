@@ -6,3 +6,7 @@ import { messageLimiter } from '../../middleware/rateLimiter.js';
 import { editMessageSchema, reactSchema } from './message.validation.js';
 
 const router = Router();
+router.use(authenticate, messageLimiter);
+
+router.patch('/:id', validate(editMessageSchema), messageController.update);
+router.delete('/:id', messageController.remove);
