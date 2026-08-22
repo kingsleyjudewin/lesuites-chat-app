@@ -12,3 +12,10 @@ const fileAttachmentSchema = new mongoose.Schema(
     storageKey: { type: String, required: true, unique: true },
   },
   { timestamps: true }
+);
+
+fileAttachmentSchema.index({ contextType: 1, contextId: 1 });
+
+fileAttachmentSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    ret.id = ret._id.toString();
