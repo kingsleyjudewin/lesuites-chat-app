@@ -9,3 +9,6 @@ router.use(authenticate);
 
 router.get('/', conversationController.list);
 router.post('/', validate(createConversationSchema), conversationController.create);
+router.get('/:id/messages', conversationController.getMessages);
+
+export default router;
