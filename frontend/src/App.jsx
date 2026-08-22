@@ -21,3 +21,10 @@ export default function App() {
               <Route path="/boardrooms" element={<BoardroomPage />} />
               <Route path="/members" element={<MemberActivityPage />} />
             </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </SocketProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
