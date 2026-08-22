@@ -8,3 +8,6 @@ export async function connectDB() {
   logger.info(`MongoDB connected: ${mongoose.connection.host}`);
 }
 
+export async function disconnectDB() {
+  await mongoose.disconnect();
+}
