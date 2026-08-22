@@ -31,3 +31,13 @@ export const login = catchAsync(async (req, res) => {
   respondWithAuth(res, result);
 });
 
+export const refresh = catchAsync(async (req, res) => {
+  const result = await authService.refresh(req.signedCookies?.[REFRESH_COOKIE], meta(req));
+  respondWithAuth(res, result);
+});
+
+export const logout = catchAsync(async (req, res) => {
+  await authService.logout(req.signedCookies?.[REFRESH_COOKIE]);
+  res.clearCookie(REFRESH_COOKIE, { path: cookieOptions.path });
+  res.status(200).json({ success: true, data: null });
+});
