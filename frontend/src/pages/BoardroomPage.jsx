@@ -224,3 +224,116 @@ export function BoardroomPage() {
                 })}
               </div>
 
+              {error && <p className="px-gutter font-body-sm text-body-sm text-error">{error}</p>}
+
+              <div className="p-gutter pt-0 relative z-10">
+                <form onSubmit={sendMessage} className="glass-panel rounded-xl p-2 flex items-end gap-2 border border-white/10 focus-within:border-primary/50 transition-colors">
+                  <textarea
+                    className="w-full bg-transparent border-none focus:ring-0 resize-none max-h-32 min-h-[44px] py-3 text-on-surface font-body-lg placeholder-on-surface-variant/50"
+                    placeholder="Draft communication..."
+                    rows={1}
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) sendMessage(e);
+                    }}
+                  />
+                  <button type="submit" className="p-3 bg-primary text-on-primary rounded-lg gold-glint flex items-center justify-center">
+                    <span className="material-symbols-outlined">send</span>
+                  </button>
+                </form>
+              </div>
+            </>
+          )}
+        </section>
+
+        {detail && (
+          <section className="w-80 glass-panel border-l border-white/5 flex flex-col">
+            <div className="p-gutter overflow-y-auto flex-1">
+              <h3 className="font-headline-lg text-headline-lg mb-2">Details</h3>
+              <p className="font-body-sm text-body-sm text-on-surface-variant/80 mb-6">{detail.description || 'No description provided.'}</p>
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-title-md text-title-md">Members</h4>
+                <span className="font-label-caps text-label-caps bg-surface-container py-1 px-2 rounded-full border border-white/5">{detail.members.length} Total</span>
+              </div>
+              {isOwner && (
+                <button
+                  onClick={() => setShowAddMember(true)}
+                  type="button"
+                  className="w-full mb-4 flex items-center justify-center gap-2 text-primary font-label-caps text-label-caps py-2 rounded-lg border border-primary/30 hover:bg-primary/10"
+                >
+                  <span className="material-symbols-outlined text-[16px]">person_add</span>
+                  Add Member
+                </button>
+              )}
+              <div className="gold-separator mb-4" />
+              <div className="space-y-4">
+                {detail.members.map((m) => (
+                  <div key={m.userId.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
+                    <Avatar name={m.userId.username} avatarUrl={m.userId.avatarUrl} size={40} className="border border-outline/20" />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-title-md text-title-md text-sm truncate">{m.userId.username}</div>
+                      <div className="font-label-caps text-label-caps text-primary/70 truncate">{m.userId.title || m.role}</div>
+                    </div>
+                    {isOwner && m.role !== 'owner' && (
+                      <button onClick={() => removeMember(m.userId.id)} type="button" className="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+                        <span className="material-symbols-outlined text-[18px]">close</span>
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="p-gutter border-t border-white/5">
+              <button onClick={leaveBoardroom} type="button" className="w-full flex items-center justify-center gap-2 text-error font-title-md text-title-md py-3 rounded-lg hover:bg-error/10 transition-colors border border-transparent hover:border-error/20">
+                <span className="material-symbols-outlined">logout</span>
+                Leave Boardroom
+              </button>
+            </div>
+          </section>
+        )}
+      </main>
+
+      {showCreate && (
+        <CreateBoardroomModal
+          onClose={() => setShowCreate(false)}
+          onCreated={async (id) => {
+            setShowCreate(false);
+            await loadBoardrooms();
+            setSelectedId(id);
+          }}
+        />
+      )}
+      {showAddMember && detail && (
+        <AddMemberModal
+          existingIds={detail.members.map((m) => m.userId.id)}
+          onClose={() => setShowAddMember(false)}
+          onAdded={async () => {
+            setShowAddMember(false);
+            setDetail(await api.get(`/boardrooms/${selectedId}`));
+          }}
+          boardroomId={selectedId}
+        />
+      )}
+    </div>
+  );
+}
+
+function CreateBoardroomModal({ onClose, onCreated }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!query.trim()) return setResults([]);
+    const handle = setTimeout(async () => {
+      const r = await api.get(`/users?q=${encodeURIComponent(query.trim())}`);
+      setResults(r.items.filter((u) => u.id !== user.id));
+    }, 250);
+    return () => clearTimeout(handle);
+  }, [query, user.id]);
+
