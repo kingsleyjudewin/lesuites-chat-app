@@ -49,3 +49,19 @@ export function Sidebar() {
       <div className="px-8 mt-4 flex flex-col gap-3">
         <button
           onClick={() => navigate('/boardrooms?create=1')}
+          type="button"
+          className="w-full py-4 rounded bg-gradient-to-r from-primary-container to-primary text-on-primary font-title-md text-title-md gold-glint shadow-[0_0_20px_rgba(212,175,55,0.2)]"
+        >
+          New Briefing
+        </button>
+        <button
+          onClick={logout}
+          type="button"
+          className="w-full py-3 rounded bg-surface-bright text-on-surface-variant font-label-caps text-label-caps tracking-widest border border-outline-variant/50 hover:border-error/50 hover:text-error transition-all duration-300"
+        >
+          Sign Out
+        </button>
+      </div>
+    </nav>
+  );
+}
