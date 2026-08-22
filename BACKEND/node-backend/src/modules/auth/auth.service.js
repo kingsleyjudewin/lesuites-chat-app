@@ -19,3 +19,24 @@ function signAccessToken(user) {
 
 async function issueRefreshToken(userId, meta) {
   const token = crypto.randomBytes(48).toString('hex');
+  await RefreshToken.create({
+    userId,
+    tokenHash: hashToken(token),
+    expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL_MS),
+    userAgent: meta.userAgent,
+    ip: meta.ip,
+  });
+  return token;
+}
+
+export async function register({ username, email, password }, meta) {
+  const existing = await User.findOne({ $or: [{ email }, { username }] });
+  if (existing) throw new ApiError(409, 'Username or email already in use');
+
+  const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+  const user = await User.create({ username, email, passwordHash });
+
+  const accessToken = signAccessToken(user);
+  const refreshToken = await issueRefreshToken(user.id, meta);
+  return { user, accessToken, refreshToken };
+}
