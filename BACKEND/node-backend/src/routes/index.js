@@ -12,3 +12,9 @@ import activityRoutes from '../modules/activity/activity.routes.js';
 
 const router = Router();
 
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/conversations', conversationRoutes);
+router.use('/messages', messageRoutes);
+router.use('/boardrooms', boardroomRoutes);
+router.use('/presence', presenceRoutes);
