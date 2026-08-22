@@ -307,3 +307,105 @@ export function MessagingPage() {
             </header>
 
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-panel-padding space-y-6 z-10 flex flex-col relative">
+              {messages.map((m) => {
+                const mine = m.senderId === user.id;
+                const seenByOther = m.readBy?.some((r) => r.userId !== user.id);
+                const myReaction = m.reactions?.find((r) => r.userId === user.id)?.type;
+                return (
+                  <div key={m.id} className={`flex items-end max-w-2xl group ${mine ? 'justify-end ml-auto' : ''}`}>
+                    {editingId === m.id ? (
+                      <div className="glass-panel p-4 rounded-2xl border border-primary/40 w-full">
+                        <input
+                          className="w-full bg-transparent border-none outline-none text-on-surface font-body-lg"
+                          value={editDraft}
+                          onChange={(e) => setEditDraft(e.target.value)}
+                          autoFocus
+                        />
+                        <div className="flex gap-2 mt-2 justify-end">
+                          <button className="text-on-surface-variant text-body-sm" onClick={() => setEditingId(null)} type="button">
+                            Cancel
+                          </button>
+                          <button className="text-primary text-body-sm font-bold" onClick={() => saveEdit(m.id)} type="button">
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    ) : mine ? (
+                      <div className="flex flex-col items-end">
+                        <div className="bg-gradient-to-br from-primary-container to-primary-fixed-dim p-6 rounded-2xl rounded-br-sm shadow-[0_10px_40px_-10px_rgba(242,202,80,0.2)] relative">
+                          <p className="font-body-lg text-body-lg text-on-primary leading-relaxed font-medium">{m.text}</p>
+                        </div>
+                        <div className="mt-2 text-right opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+                          <button className="font-label-caps text-[10px] text-on-surface-variant hover:text-primary" onClick={() => { setEditingId(m.id); setEditDraft(m.text); }} type="button">
+                            edit
+                          </button>
+                          <button className="font-label-caps text-[10px] text-on-surface-variant hover:text-error" onClick={() => deleteMessage(m.id)} type="button">
+                            delete
+                          </button>
+                          <span className="font-label-caps text-[10px] text-on-surface-variant">{timeOnly(m.createdAt)}</span>
+                          <span className={`material-symbols-outlined text-[14px] ${seenByOther ? 'text-primary' : 'text-on-surface-variant/40'}`}>done_all</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <Avatar name={m.senderId} size={32} className="mr-3 mb-1 border border-outline-variant" />
+                        <div>
+                          <div className="glass-panel p-6 rounded-2xl rounded-bl-sm border border-outline-variant/50 relative">
+                            <p className="font-body-lg text-body-lg text-on-surface leading-relaxed">{m.text}</p>
+                          </div>
+                          <div className="mt-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button
+                              onClick={() => react(m.id, 'approved')}
+                              type="button"
+                              className={`inline-flex items-center font-label-caps text-[10px] rounded-full px-2 py-1 border ${
+                                myReaction === 'approved' ? 'text-primary bg-surface-variant/50 border-primary/30' : 'text-on-surface-variant bg-surface-variant/30 border-outline-variant/50'
+                              }`}
+                            >
+                              <span className="material-symbols-outlined text-[12px] mr-1">check</span> Approved
+                            </button>
+                            <button
+                              onClick={() => react(m.id, 'executive')}
+                              type="button"
+                              className={`inline-flex items-center font-label-caps text-[10px] rounded-full px-2 py-1 border ${
+                                myReaction === 'executive' ? 'text-primary bg-surface-variant/50 border-primary/30' : 'text-on-surface-variant bg-surface-variant/30 border-outline-variant/50'
+                              }`}
+                            >
+                              <span className="material-symbols-outlined text-[12px] mr-1">verified_user</span> Executive
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {error && <p className="px-gutter font-body-sm text-body-sm text-error">{error}</p>}
+
+            <div className="px-gutter pb-8 z-20">
+              <form
+                onSubmit={sendMessage}
+                className="w-full max-w-3xl mx-auto glass-panel rounded-full p-2 pl-6 flex items-center border border-outline-variant shadow-2xl transition-all duration-300 bg-surface-container-low/90"
+              >
+                <input ref={fileInputRef} type="file" className="hidden" onChange={handleAttach} />
+                <button aria-label="Attach Document" type="button" className="text-on-surface-variant hover:text-primary transition-colors mr-3" onClick={() => fileInputRef.current?.click()}>
+                  <span className="material-symbols-outlined">attach_file</span>
+                </button>
+                <input
+                  className="flex-1 bg-transparent border-none outline-none text-on-surface placeholder:text-on-surface-variant/50 font-body-lg text-body-lg py-3 focus:ring-0"
+                  placeholder="Draft response..."
+                  value={draft}
+                  onChange={(e) => handleDraftChange(e.target.value)}
+                />
+                <button aria-label="Send" type="submit" className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-on-primary shadow-[0_0_20px_rgba(242,202,80,0.3)] gold-glint">
+                  <span className="material-symbols-outlined relative z-10">send</span>
+                </button>
+              </form>
+            </div>
+          </>
+        )}
+      </main>
+    </div>
+  );
+}
