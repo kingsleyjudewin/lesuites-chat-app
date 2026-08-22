@@ -10,3 +10,9 @@ export async function createNotification(userId, type, payload = {}) {
     // Socket layer not up yet (e.g. during startup or tests) — the notification is still persisted for later fetch.
   }
   return notification;
+}
+
+export async function listForUser(userId) {
+  return Notification.find({ userId }).sort({ createdAt: -1 }).limit(50);
+}
+
