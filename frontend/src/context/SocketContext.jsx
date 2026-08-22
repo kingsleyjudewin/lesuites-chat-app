@@ -43,3 +43,18 @@ export function SocketProvider({ children }) {
   // Prefer a live socket-reported status over whatever a REST payload's own `.status` field says —
   // REST snapshots can be stale by the time they render, live presence events are not.
   const resolveStatus = (entity) => presence[entity?.id]?.status ?? entity?.status ?? 'offline';
+  const resolveLastSeen = (entity) => presence[entity?.id]?.lastSeen ?? entity?.lastSeen;
+
+  const value = useMemo(
+    () => ({ socket, presence, resolveStatus, resolveLastSeen, notifications, dismissNotification }),
+    [socket, presence, notifications]
+  );
+
+  return <SocketContext.Provider value={value}>{children}</SocketContext.Provider>;
+}
+
+export function useSocketContext() {
+  const ctx = useContext(SocketContext);
+  if (!ctx) throw new Error('useSocketContext must be used within SocketProvider');
+  return ctx;
+}
