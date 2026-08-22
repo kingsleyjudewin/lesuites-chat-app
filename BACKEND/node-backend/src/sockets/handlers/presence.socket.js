@@ -32,3 +32,14 @@ export function registerPresenceHandlers(io, socket) {
         await broadcastToPeers('user_offline', { userId, lastSeen: new Date() });
       });
     }
+  }
+
+  async function broadcastToPeers(event, payload) {
+    try {
+      const peers = await presenceService.getPeerUserIds(userId);
+      peers.forEach((peerId) => io.to(`user:${peerId}`).emit(event, payload));
+    } catch (err) {
+      logger.error('Failed to broadcast presence event', err);
+    }
+  }
+}
