@@ -10,3 +10,8 @@ export function connectSocket(token) {
   return socket;
 }
 
+export function disconnectSocket() {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
