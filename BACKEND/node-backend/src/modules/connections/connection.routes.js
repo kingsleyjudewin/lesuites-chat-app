@@ -9,3 +9,6 @@ router.use(authenticate);
 
 router.post('/requests', validate(sendRequestSchema), connectionController.sendRequest);
 router.patch('/requests/:id', validate(respondSchema), connectionController.respond);
+router.get('/', connectionController.list);
+
+export default router;
