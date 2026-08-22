@@ -10,3 +10,9 @@ const conversationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+conversationSchema.index({ participants: 1 });
+
+conversationSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    ret.id = ret._id.toString();
+    delete ret._id;
