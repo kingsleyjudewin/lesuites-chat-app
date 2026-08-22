@@ -16,3 +16,12 @@ export function relativeTime(dateInput) {
   if (diffMin < 60) return `${diffMin}m ago`;
   const diffHr = Math.floor(diffMin / 60);
   if (diffHr < 24) return `${diffHr}h ago`;
+  const diffDay = Math.floor(diffHr / 24);
+  if (diffDay === 1) return 'Yesterday';
+  if (diffDay < 7) return `${diffDay}d ago`;
+  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+export function timeOnly(dateInput) {
+  if (!dateInput) return '';
+  return new Date(dateInput).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
