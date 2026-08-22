@@ -4,3 +4,9 @@ const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 let socket = null;
 
+export function connectSocket(token) {
+  if (socket) socket.disconnect();
+  socket = io(SOCKET_URL, { auth: { token }, transports: ['websocket'] });
+  return socket;
+}
+
