@@ -5,3 +5,6 @@ import { validate } from '../../middleware/validate.middleware.js';
 import { setStatusSchema } from './presence.validation.js';
 
 const router = Router();
+router.use(authenticate);
+
+router.get('/:userId', presenceController.getStatus);
