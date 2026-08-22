@@ -13,3 +13,18 @@ export function registerMessagingHandlers(io, socket) {
   const userId = socket.userId;
 
   socket.on('join_conversation', async (conversationId, ack) => {
+    try {
+      await conversationService.assertParticipant(conversationId, userId);
+      socket.join(`conversation:${conversationId}`);
+      ack?.({ success: true });
+    } catch {
+      ack?.({ success: false, error: 'Not a participant of this conversation' });
+    }
+  });
+
+  socket.on('leave_conversation', (conversationId, ack) => {
+    socket.leave(`conversation:${conversationId}`);
+    ack?.({ success: true });
+  });
+
+  socket.on('send_message', async (payload, ack) => {
