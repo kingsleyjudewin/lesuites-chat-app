@@ -6,3 +6,7 @@ export function Modal({ title, onClose, children, wide = false }) {
         onClick={(e) => e.stopPropagation()}
       >
         <button className="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors" onClick={onClose} type="button">
+          <span className="material-symbols-outlined">close</span>
+        </button>
+        <h3 className="font-headline-lg text-headline-lg mb-6">{title}</h3>
+        {children}
