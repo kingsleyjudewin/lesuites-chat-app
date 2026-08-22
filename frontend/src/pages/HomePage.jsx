@@ -38,3 +38,23 @@ export function HomePage() {
         <div className="absolute top-0 left-1/4 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full mix-blend-screen opacity-30" />
       </div>
 
+      <Sidebar />
+
+      <main className="md:ml-80 w-full min-h-screen relative z-10 flex flex-col justify-center items-center px-margin-safe py-panel-padding">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center text-center">
+          <div className="relative w-48 h-48 mb-12 rounded-full glass-panel flex items-center justify-center shadow-2xl shadow-primary/5 border border-primary/20">
+            <span className="font-display-lg text-display-lg text-primary">LS</span>
+            <div className="absolute inset-0 rounded-full border border-primary/10 scale-110" />
+            <div className="absolute inset-0 rounded-full border border-primary/5 scale-125" />
+          </div>
+
+          <h2 className="font-display-lg text-display-lg text-on-surface mb-6 tracking-tight">
+            Welcome Back, <span className="gold-text-gradient">{user?.username}</span>
+          </h2>
+          <p className="font-title-md text-title-md text-on-surface-variant max-w-2xl mx-auto opacity-80 leading-relaxed">
+            Exclusive communication. Private conversations. Trusted members.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full mt-24">
+            {CARDS.map((card) => (
+              <Link
