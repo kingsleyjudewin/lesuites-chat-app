@@ -7,3 +7,6 @@ export const getUserActivity = catchAsync(async (req, res) => {
 });
 
 export const getSidebar = catchAsync(async (req, res) => {
+  const data = await activityService.getOnlineSidebar(req.params.id);
+  res.json({ success: true, data });
+});
