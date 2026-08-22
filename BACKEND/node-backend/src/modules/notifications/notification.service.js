@@ -16,3 +16,8 @@ export async function listForUser(userId) {
   return Notification.find({ userId }).sort({ createdAt: -1 }).limit(50);
 }
 
+export async function markRead({ notificationId, userId }) {
+  const notification = await Notification.findOneAndUpdate({ _id: notificationId, userId }, { read: true }, { new: true });
+  if (!notification) throw new ApiError(404, 'Notification not found');
+  return notification;
+}
