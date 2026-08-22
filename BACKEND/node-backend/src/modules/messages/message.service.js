@@ -61,3 +61,23 @@ export async function markSeen({ messageId, userId }) {
   const message = await Message.findById(messageId);
   if (!message) throw new ApiError(404, 'Message not found');
 
+  const alreadySeen = message.readBy.some((r) => String(r.userId) === String(userId));
+  if (!alreadySeen) {
+    message.readBy.push({ userId, seenAt: new Date() });
+    if (message.status !== MESSAGE_STATUS.SEEN) message.status = MESSAGE_STATUS.SEEN;
+    await message.save();
+  }
+
+  return { message, room: `${message.contextType}:${message.contextId}` };
+}
+
+export async function react({ messageId, userId, type }) {
+  const message = await Message.findById(messageId);
+  if (!message) throw new ApiError(404, 'Message not found');
+
+  message.reactions = message.reactions.filter((r) => String(r.userId) !== String(userId));
+  message.reactions.push({ userId, type });
+  await message.save();
+
+  return { room: `${message.contextType}:${message.contextId}`, message };
+}
