@@ -24,3 +24,11 @@ export async function search({ q, status, page, limit }) {
   const skip = (page - 1) * limit;
   const [items, total] = await Promise.all([
     User.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort(q ? { score: { $meta: 'textScore' } } : { username: 1 }),
+    User.countDocuments(filter),
+  ]);
+
+  return { items, total, page, limit };
+}
