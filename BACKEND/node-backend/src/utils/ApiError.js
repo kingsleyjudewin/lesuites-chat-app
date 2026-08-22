@@ -5,3 +5,5 @@ export class ApiError extends Error {
     this.details = details;
     this.isOperational = true;
     Error.captureStackTrace(this, this.constructor);
+  }
+}
