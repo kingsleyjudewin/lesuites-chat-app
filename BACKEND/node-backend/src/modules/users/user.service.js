@@ -16,3 +16,11 @@ export async function updateProfile(userId, updates) {
   return user;
 }
 
+export async function search({ q, status, page, limit }) {
+  const filter = {};
+  if (status) filter.status = status;
+  if (q) filter.$text = { $search: q };
+
+  const skip = (page - 1) * limit;
+  const [items, total] = await Promise.all([
+    User.find(filter)
