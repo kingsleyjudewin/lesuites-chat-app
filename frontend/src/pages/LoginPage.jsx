@@ -90,3 +90,49 @@ export function LoginPage() {
                   mail
                 </span>
                 <input
+                  className="glass-input w-full bg-transparent border-0 border-b border-outline-variant/30 text-on-surface font-body-lg text-body-lg py-3 pl-10 pr-4 focus:ring-0 placeholder-on-surface-variant/40"
+                  placeholder="Executive Email"
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="relative group">
+                <span className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-primary transition-colors pl-2">
+                  lock
+                </span>
+                <input
+                  className="glass-input w-full bg-transparent border-0 border-b border-outline-variant/30 text-on-surface font-body-lg text-body-lg py-3 pl-10 pr-10 focus:ring-0 placeholder-on-surface-variant/40"
+                  placeholder="Passphrase"
+                  required
+                  minLength={8}
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-primary transition-colors flex items-center justify-center p-1"
+                  onClick={() => setShowPassword((s) => !s)}
+                  type="button"
+                >
+                  <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                </button>
+              </div>
+
+              {error && <p className="font-body-sm text-body-sm text-error">{error}</p>}
+
+              <div className="flex items-center justify-between pt-2">
+                <span className="font-body-sm text-body-sm text-on-surface-variant/50" title="Not yet available">
+                  Forgot Password?
+                </span>
+                <button
+                  type="button"
+                  className="font-body-sm text-body-sm text-primary hover:text-surface-tint transition-colors underline-offset-4 hover:underline"
+                  onClick={() => {
+                    setMode((m) => (m === 'login' ? 'register' : 'login'));
+                    setError('');
+                  }}
+                >
+                  {mode === 'login' ? 'New here? Register' : 'Already a member? Sign in'}
+                </button>
