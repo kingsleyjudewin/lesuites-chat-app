@@ -187,3 +187,66 @@ export function MemberActivityPage() {
                   className="w-full py-4 rounded-lg bg-gradient-to-r from-primary-container/20 to-transparent border border-primary/30 text-primary font-title-md text-[15px] hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center gap-2 mb-3"
                 >
                   <span className="material-symbols-outlined text-[20px]">forum</span>
+                  Message Member
+                </button>
+                {connectionStatus === 'accepted' ? (
+                  <div className="w-full py-2 text-center font-label-caps text-label-caps text-tertiary">Connected</div>
+                ) : connectionStatus === 'pending_sent' ? (
+                  <div className="w-full py-2 text-center font-label-caps text-label-caps text-on-surface-variant">Request Pending</div>
+                ) : connectionStatus === 'pending_received' ? (
+                  <button onClick={acceptConnectionRequest} type="button" className="w-full py-3 rounded-lg border border-primary/30 text-primary font-label-caps text-label-caps">
+                    Accept Connection Request
+                  </button>
+                ) : (
+                  <button onClick={sendConnectionRequest} type="button" className="w-full py-3 rounded-lg border border-outline-variant/50 text-on-surface-variant hover:border-primary/50 hover:text-primary font-label-caps text-label-caps transition-colors">
+                    Send Connection Request
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-10 pt-6 flex flex-col gap-8">
+              <div>
+                <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-[0.2em]">Network Intelligence</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-surface-container/30 rounded-lg p-4 border border-white/5">
+                    <div className="font-display-lg text-[32px] leading-tight text-on-surface mb-1">{sidebarStats?.boardroomsJoined ?? '—'}</div>
+                    <div className="font-body-sm text-body-sm text-on-surface-variant">Boardrooms Joined</div>
+                  </div>
+                  <div className="bg-surface-container/30 rounded-lg p-4 border border-white/5">
+                    <div className="font-display-lg text-[32px] leading-tight text-primary mb-1">{level ?? '—'}</div>
+                    <div className="font-body-sm text-body-sm text-on-surface-variant">Activity Level</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-[0.2em]">Recent Activity</h3>
+                {feed.length === 0 ? (
+                  <p className="font-body-sm text-body-sm text-on-surface-variant/60">No recent activity.</p>
+                ) : (
+                  <div className="space-y-4 relative before:absolute before:inset-y-0 before:left-2.5 before:w-px before:bg-gradient-to-b before:from-primary/30 before:to-transparent">
+                    {feed.map((entry, i) => (
+                      <div key={entry.id} className="relative pl-8">
+                        <div className={`absolute left-[5px] top-1.5 w-2 h-2 rounded-full ${i === 0 ? 'bg-primary shadow-[0_0_10px_rgba(242,202,80,0.5)]' : 'bg-outline-variant'}`} />
+                        <p className="font-body-sm text-body-sm text-on-surface mb-1">{ACTIVITY_LABEL[entry.type] || entry.type}</p>
+                        <p className="font-label-caps text-[10px] text-on-surface-variant/60">{relativeTime(entry.createdAt)}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-[0.2em]">Professional Nexus</h3>
+                <div className="bg-surface-container/20 rounded-xl border border-white/5 p-5">
+                  <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">{profile.bio || 'No bio provided yet.'}</p>
+                </div>
+              </div>
+            </div>
+          </aside>
+        )}
+      </main>
+    </div>
+  );
+}
