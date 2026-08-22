@@ -16,3 +16,8 @@ export function Avatar({ name, avatarUrl, size = 40, className = '' }) {
     <div
       className={`rounded-full bg-surface-bright border border-outline-variant/40 flex items-center justify-center text-primary font-title-md shrink-0 ${className}`}
       style={{ width: px, height: px, fontSize: Math.max(11, size * 0.36) }}
+    >
+      {initials(name)}
+    </div>
+  );
+}
