@@ -10,3 +10,8 @@ const activityEventSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+activityEventSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    ret.id = ret._id.toString();
+    delete ret._id;
+    delete ret.__v;
