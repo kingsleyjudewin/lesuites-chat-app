@@ -29,3 +29,13 @@ class KeyManager:
         self._cache: dict[str, bytes] = {}
 
     def get_data_key(self, key_version: str) -> bytes:
+        if key_version not in self._cache:
+            self._cache[key_version] = _hkdf_sha256(self._master_key, salt=key_version.encode(), info=b"lesuits-message-encryption")
+        return self._cache[key_version]
+
+    @property
+    def active_key_version(self) -> str:
+        return settings.active_key_version
+
+
+key_manager = KeyManager()
