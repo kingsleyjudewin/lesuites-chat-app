@@ -64,3 +64,25 @@ async function request(method, path, body) {
   // A 401 on anything other than the auth endpoints themselves is worth one silent refresh-and-retry.
   if (res.status === 401 && !path.startsWith('/auth/')) {
     const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      ({ res, json } = await raw(method, path, body));
+    } else {
+      onAuthLost();
+    }
+  }
+
+  if (!res.ok) {
+    throw new ApiError(res.status, json?.message || 'Request failed', json?.details);
+  }
+  return json?.data;
+}
+
+export const api = {
+  get: (path) => request('GET', path),
+  post: (path, body) => request('POST', path, body),
+  patch: (path, body) => request('PATCH', path, body),
+  delete: (path) => request('DELETE', path),
+  refreshAccessToken,
+};
+
+export { ApiError };
