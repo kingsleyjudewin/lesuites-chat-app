@@ -55,3 +55,22 @@ export async function addMember(boardroomId, actingUserId, newUserId) {
 export async function removeMember(boardroomId, actingUserId, targetUserId) {
   await assertOwner(boardroomId, actingUserId);
   const boardroom = await Boardroom.findByIdAndUpdate(boardroomId, { $pull: { members: { userId: targetUserId } } }, { new: true });
+  if (!boardroom) throw new ApiError(404, 'Boardroom not found');
+  await logActivity(targetUserId, ACTIVITY_TYPE.LEFT_BOARDROOM, boardroomId);
+  return boardroom;
+}
+
+export async function leave(boardroomId, userId) {
+  const boardroom = await Boardroom.findById(boardroomId);
+  if (!boardroom) throw new ApiError(404, 'Boardroom not found');
+
+  const isOwner = boardroom.members.some((m) => String(m.userId) === String(userId) && m.role === BOARDROOM_ROLE.OWNER);
+  if (isOwner && boardroom.members.length > 1) {
+    throw new ApiError(400, 'Transfer ownership before leaving, or remove all other members first');
+  }
+
+  boardroom.members = boardroom.members.filter((m) => String(m.userId) !== String(userId));
+  await boardroom.save();
+  await logActivity(userId, ACTIVITY_TYPE.LEFT_BOARDROOM, boardroomId);
+  return boardroom;
+}
