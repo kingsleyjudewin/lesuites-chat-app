@@ -6,3 +6,7 @@ import { ApiError } from '../../utils/ApiError.js';
 export const getStatus = catchAsync(async (req, res) => {
   const user = await User.findById(req.params.userId).select('status lastSeen');
   if (!user) throw new ApiError(404, 'User not found');
+  res.json({ success: true, data: { userId: req.params.userId, status: user.status, lastSeen: user.lastSeen } });
+});
+
+export const setStatus = catchAsync(async (req, res) => {
