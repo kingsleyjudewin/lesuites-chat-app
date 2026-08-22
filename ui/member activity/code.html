@@ -117,3 +117,121 @@
                         "title-md": ["Inter"],
                         "body-lg": ["Inter"],
                         "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "1.5", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-lg text-body-lg antialiased min-h-screen overflow-hidden flex selection:bg-primary/20 selection:text-primary">
+<!-- Ambient Shader Background -->
+
+<!-- TopNavBar (Mobile Only) -->
+<nav class="md:hidden z-50 fixed w-full top-0 bg-surface/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-black/50 flex justify-between items-center px-gutter h-20">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">LeSuits</div>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined cursor-pointer active:scale-95 transition-transform hover:text-primary transition-colors duration-500">call</span>
+<span class="material-symbols-outlined cursor-pointer active:scale-95 transition-transform hover:text-primary transition-colors duration-500">videocam</span>
+<span class="material-symbols-outlined cursor-pointer active:scale-95 transition-transform hover:text-primary transition-colors duration-500">info</span>
+</div>
+</nav>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex h-screen w-80 fixed left-0 top-0 z-40 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/5 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.5)] flex-col py-panel-padding">
+<!-- Header Profile -->
+<div class="px-8 mb-12 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro shot of a sleek, dark metallic executive ID badge with subtle gold trim, reflecting soft ambient studio light, evoking an aura of high-end corporate exclusivity and privacy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0tXJz7tL0h4xFIn72lFsahNYxCC1KdfkjSzp7nMTbiK113AGqoU8leqQVv3s9p6d5-e34SBfd53WpJXn1J453p5DN-NCX_Qa0l2FcgMPV-9zMhelC5cjbuvCSu0X7GFaMW-omJNd_Hk6feD3cGf9ZHiHuNuKr7drIOaCf27cFqURWDs6gxTJBUCp08KcmcCu4waP4nnszS6wPDQR6hizXPXHjrai_mo52F7LxrrEyNZszIeGTG2NgJg"/>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Executive Portal</h2>
+<p class="font-body-sm text-body-sm text-primary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">verified</span> Verified Member
+                </p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 flex flex-col gap-2">
+<!-- Inactive Tab -->
+<a class="group flex items-center gap-4 px-8 py-4 font-title-md text-title-md text-on-surface-variant/60 hover:text-on-surface hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform duration-500">chat_bubble</span>
+<span>Messages</span>
+</a>
+<!-- Inactive Tab -->
+<a class="group flex items-center gap-4 px-8 py-4 font-title-md text-title-md text-on-surface-variant/60 hover:text-on-surface hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform duration-500">account_balance</span>
+<span>Boardroom</span>
+</a>
+<!-- Active Tab: Member Activity -->
+<a class="group flex items-center gap-4 px-8 py-4 font-title-md text-title-md text-primary border-r-2 border-primary bg-gradient-to-r from-primary/10 to-transparent" href="#">
+<span class="material-symbols-outlined icon-fill">diversity_3</span>
+<span>Member Activity</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="px-8 mt-auto">
+<button class="w-full py-4 rounded-DEFAULT bg-surface-bright text-primary font-label-caps text-label-caps tracking-widest border border-outline-variant/50 hover:border-primary/50 hover:bg-white/5 transition-all duration-300 flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined text-[16px] group-hover:rotate-90 transition-transform duration-500">add</span>
+                New Briefing
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-80 mt-20 md:mt-0 h-[calc(100vh-80px)] md:h-screen flex relative">
+<!-- Directory Panel (Left/Center Column) -->
+<section class="flex-1 h-full overflow-y-auto px-margin-safe py-margin-safe lg:p-[40px] flex flex-col max-w-4xl">
+<!-- Header Area -->
+<header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight mb-2 hidden md:block">Member Activity</h1>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight mb-2 md:hidden">Member Activity</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Real-time network intelligence and executive movements across your trusted circles.</p>
+</div>
+<!-- Segmented Filters -->
+<div class="flex bg-surface-container-high rounded-full p-1 border border-white/5 backdrop-blur-md self-start md:self-auto shrink-0">
+<button class="px-6 py-2 rounded-full bg-surface-variant text-on-surface font-label-caps text-label-caps shadow-sm">All</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps transition-colors">Online</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps transition-colors">Offline</button>
+</div>
+</header>
+<!-- Member List Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-max pb-20">
+<!-- Member Card 1 (Active) -->
+<article class="group relative bg-surface-container/40 backdrop-blur-lg border border-white/5 hover:border-primary/30 rounded-xl p-5 cursor-pointer transition-all duration-500 hover:bg-surface-container/60 hover:-translate-y-1">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none"></div>
+<div class="flex gap-4 items-center relative z-10">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A striking portrait of a sophisticated executive in a dark tailored suit, bathed in moody cinematic rim lighting, set against an abstract obsidian backdrop, conveying absolute authority and refined modern luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuplp8eeKK2YwsxSeeH9x4blyT0srfJCZXBud9InmUebgVBaGVbfn_IvN8ESRjaDiEYVDO0_rXiKFs1gvc2EV3VP-1fWKR1MjJkf3fx-0LApD4w8dQBTvMtZ5vOZA8nCgW8jylcd7MIZQs-H_CZR3EoVaXVDV18BVZcFfz78Z4b44zimz849xyGr95fQP1WTNIwoPe3j0fCAfIMaKJdqq5ix5ETKoemM287uilqutsst61Bd0SnA5ewQ"/>
+</div>
+<!-- Gold Pulse Indicator -->
+<div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-primary rounded-full border-2 border-surface ring-pulse-gold"></div>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-title-md text-title-md text-on-surface truncate group-hover:text-primary transition-colors">Alexander Vance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Managing Partner at V&amp;C Holdings</p>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-white/5 flex justify-between items-center relative z-10">
+<div class="flex gap-2">
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-[10px] uppercase tracking-wider">Investor</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-[10px] uppercase tracking-wider">Board</span>
+</div>
+<span class="font-body-sm text-body-sm text-primary/80">Active now</span>
+</div>
+</article>
+<!-- Member Card 2 -->
+<article class="group relative bg-surface-container/40 backdrop-blur-lg border border-white/5 hover:border-primary/30 rounded-xl p-5 cursor-pointer transition-all duration-500 hover:bg-surface-container/60 hover:-translate-y-1">
+<div class="flex gap-4 items-center relative z-10">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border border-white/10 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="An elegant monochrome portrait of a female founder in sharp corporate attire, illuminated by subtle architectural light rays, exuding quiet confidence within a dark, premium brutalist space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2FiCNstxjLzNedSkgzqxaJ7g0RJUBHZr6NnXbbG6Dw6534M19VY34pkUz8edlWkWfkNaSI77F_lbpTuB9zG8C5A0c5pSTguB69r6fi--BguZyGvtkl5V1cQM5XiP2i675-Izidyl6NEAHu--0J8OOcCo-bDrO0bn5_xrAwA2mD9yrkws6iqwvPq4X34hdNrXrja8tx3fe-KIapZypPnGJoXl14Tk6n6PWDnmd3yB8JVM5jXyk6perpQ"/>
+</div>
