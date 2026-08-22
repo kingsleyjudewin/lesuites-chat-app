@@ -26,3 +26,16 @@ async function call(path, body) {
     throw new ApiError(503, 'Encryption service unavailable');
   }
 
+  if (!response.ok) {
+    throw new ApiError(503, 'Encryption service error');
+  }
+
+  return response.json();
+}
+
+// Node never falls back to storing plaintext if this service is unreachable — callers must let the ApiError propagate.
+export async function encrypt(plaintext) {
+  return call('/encrypt', { plaintext }); // { ciphertext, keyVersion }
+}
+
+export async function decrypt(ciphertext, keyVersion) {
