@@ -111,3 +111,59 @@ Key visual pillars include:
 - **Tactile Refinement:** Subtle textures reminiscent of black marble and high-grade leather.
 - **Motion Elegance:** Slow, purposeful transitions and "glint" animations on hover to simulate light hitting metal.
 
+## Colors
+
+The palette is anchored by **Deep Obsidian Black**, serving as a void that allows the **Luxury Gold** accents to command attention.
+
+- **Primary (Gold):** Used for critical actions, status indicators, and brand-defining separators. 
+- **Secondary (Sapphire):** Reserved for high-priority executive alerts and secure encryption markers.
+- **Tertiary (Emerald):** Used sparingly for confirmation states and financial growth indicators.
+- **Neutral (The Blacks):** Layered from #050505 (base) to #181818 (interactive panels) to create structural hierarchy without the need for traditional borders.
+
+Status indicators replace standard "online" dots with a **Gold Pulse Ring**, symbolizing an active presence within the elite circle.
+
+## Typography
+
+This design system employs a sophisticated typographic contrast between **Playfair Display** and **Inter**. 
+
+- **Headlines:** Use Playfair Display for all major section headers and display text. It provides the authoritative, literary feel of a heritage luxury brand.
+- **Interface & Body:** Inter is utilized for its functional precision. Its neutral, systematic nature ensures high readability for rapid executive communication.
+- **Labels:** Small labels and metadata should use uppercase Inter with increased letter spacing to mimic the engraving found on luxury watches.
+
+## Layout & Spacing
+
+The layout follows a **Fixed Grid** philosophy on desktop to maintain a composed, editorial feel, while transitioning to a **Fluid Grid** on mobile for functional utility.
+
+- **Generous Whitespace:** Padding is intentionally oversized (minimum 40px for primary panels) to evoke a sense of "digital luxury"—where space is the ultimate commodity.
+- **Vertical Rhythm:** Elements are aligned to a 4px baseline grid.
+- **Breakpoints:**
+  - **Desktop (1440px+):** 12 columns, 32px margins, fixed center container.
+  - **Tablet (768px - 1439px):** 8 columns, 24px margins, fluid.
+  - **Mobile (0px - 767px):** 4 columns, 16px margins, fluid.
+
+## Elevation & Depth
+
+Hierarchy is established through **Glassmorphism** and **Tonal Layering** rather than traditional drop shadows.
+
+- **The Glass Layer:** Elevated panels (like chat windows or modal overlays) use a `backdrop-filter: blur(20px)` with a 10% opacity white tint and a 1px "silk" border (`rgba(255,255,255,0.08)`).
+- **Shadows:** When shadows are necessary, they are highly diffused (40px+ blur) and tinted with the `#050505` background color to create a "recession" effect rather than a "floating" effect.
+- **Gold Separators:** Use ultra-thin (0.5pt) lines with a linear gold gradient to separate major content sections, simulating gold inlay in black marble.
+
+## Shapes
+
+The shape language is **Soft (0.25rem)**. This slight rounding suggests precision engineering—reminiscent of the chamfered edges on a high-end smartphone or a luxury timepiece.
+
+- **Primary Elements:** 0.25rem (4px) corner radius.
+- **Large Containers:** 0.75rem (12px) corner radius.
+- **Special Elements:** Avatars and "Gold Pulse" indicators should remain perfectly circular to contrast against the structured grid.
+
+## Components
+
+- **Buttons:** Primary buttons feature a subtle gold gradient with a "metallic glint" animation on hover. Text is bold and minimal.
+- **Input Fields:** Bottom-border only, or a very dark `#121212` fill with a 1px gold focus ring. No heavy boxes.
+- **Cards:** Utilize a "Black Marble" texture background overlay at 5% opacity. Borders are almost invisible until hovered, where they reveal a faint gold shimmer.
+- **Chips:** Used for "Executive Tags." These are dark grey with gold text, avoiding background fills to maintain a clean look.
+- **Icons:** Must be monoline, metallic/chrome finish. Avoid filled icons unless indicating an active toggle state.
+- **Messenger Specifics:**
+  - **Message Bubbles:** Outlined with a soft gradient for the sender; solid `#181818` for the receiver.
+  - **Status:** Instead of "Read Receipts," use a "Signature Verified" gold checkmark icon.
