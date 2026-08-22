@@ -6,3 +6,7 @@ export function registerNotificationHandlers(io, socket) {
 
   socket.on('notification_read', async (notificationId, ack) => {
     try {
+      await notificationService.markRead({ notificationId, userId });
+      ack?.({ success: true });
+    } catch (err) {
+      logger.error('notification_read failed', err);
