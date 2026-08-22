@@ -42,3 +42,46 @@ body {
 .glass-panel {
   background: rgba(22, 19, 11, 0.4);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+}
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(212, 175, 55, 1);
+  outline: none;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+}
+
+.gold-separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #f2ca50 0%, #d4af37 50%, #f2ca50 100%);
+  background-size: 200% auto;
+  color: #3c2f00;
+  transition: 0.5s;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+.btn-gold:hover:not(:disabled) {
+  background-position: right center;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+  transform: translateY(-1px);
+}
+.btn-gold:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-social-glass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
