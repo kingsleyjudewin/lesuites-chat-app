@@ -20,3 +20,14 @@ export async function sendRequest(senderId, receiverId) {
   return request;
 }
 
+export async function respond(requestId, userId, status) {
+  const request = await ConnectionRequest.findOne({ _id: requestId, receiver: userId, status: CONNECTION_STATUS.PENDING });
+  if (!request) throw new ApiError(404, 'Pending connection request not found');
+
+  request.status = status;
+  request.respondedAt = new Date();
+  await request.save();
+
+  if (status === CONNECTION_STATUS.ACCEPTED) {
+    await Promise.all([
+      logActivity(request.sender, ACTIVITY_TYPE.CONNECTED_WITH, request.receiver),
