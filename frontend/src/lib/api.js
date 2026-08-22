@@ -42,3 +42,25 @@ async function raw(method, path, body) {
 // cookie — which the backend correctly treats as theft and revokes the whole session for. Sharing
 // one in-flight promise keeps concurrent callers on the same, single, successful rotation.
 let refreshInFlight = null;
+
+async function refreshAccessToken() {
+  if (refreshInFlight) return refreshInFlight;
+  refreshInFlight = (async () => {
+    const { res, json } = await raw('POST', '/auth/refresh');
+    if (!res.ok) return null;
+    accessToken = json.data.accessToken;
+    return accessToken;
+  })();
+  try {
+    return await refreshInFlight;
+  } finally {
+    refreshInFlight = null;
+  }
+}
+
+async function request(method, path, body) {
+  let { res, json } = await raw(method, path, body);
+
+  // A 401 on anything other than the auth endpoints themselves is worth one silent refresh-and-retry.
+  if (res.status === 401 && !path.startsWith('/auth/')) {
+    const refreshed = await refreshAccessToken();
