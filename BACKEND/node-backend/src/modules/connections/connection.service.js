@@ -31,3 +31,14 @@ export async function respond(requestId, userId, status) {
   if (status === CONNECTION_STATUS.ACCEPTED) {
     await Promise.all([
       logActivity(request.sender, ACTIVITY_TYPE.CONNECTED_WITH, request.receiver),
+      logActivity(request.receiver, ACTIVITY_TYPE.CONNECTED_WITH, request.sender),
+    ]);
+    await createNotification(request.sender, NOTIFICATION_TYPE.CONNECTION_ACCEPTED, { fromUserId: userId, requestId: request.id });
+  }
+
+  return request;
+}
+
+export async function listForUser(userId) {
+  return ConnectionRequest.find({ $or: [{ sender: userId }, { receiver: userId }] }).sort({ createdAt: -1 });
+}
