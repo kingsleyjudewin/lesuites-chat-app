@@ -204,3 +204,106 @@ export function MessagingPage() {
   const title = selected ? conversationTitle(selected, user.id) : null;
   const other = selected ? otherParticipant(selected, user.id) : null;
   const otherStatus = other ? resolveStatus(other) : null;
+  const isPeerTyping = other ? typingUserIds.has(other.id) : false;
+
+  return (
+    <div className="text-on-surface font-body-lg overflow-hidden h-screen flex bg-surface-container-lowest">
+      <Sidebar />
+
+      <aside className="w-80 h-screen fixed left-80 top-0 flex flex-col py-panel-padding bg-surface-container-low backdrop-blur-xl shadow-2xl z-20 border-r border-outline-variant/30">
+        <div className="px-gutter mb-6">
+          <div className="glass-panel rounded-full flex items-center px-4 py-3 border border-outline-variant">
+            <span className="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+            <input
+              className="bg-transparent border-none outline-none text-on-surface w-full placeholder:text-on-surface-variant/50 font-body-sm text-body-sm focus:ring-0"
+              placeholder="Search members..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="gold-separator mx-gutter mb-4" />
+
+        <nav className="flex-1 overflow-y-auto px-4 space-y-2">
+          {query.trim() ? (
+            memberResults.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => openDirectConversation(m.id)}
+                type="button"
+                className="w-full flex items-center p-3 rounded-xl hover:bg-surface-variant/50 transition-colors text-left"
+              >
+                <Avatar name={m.username} avatarUrl={m.avatarUrl} size={44} className="mr-4" />
+                <div className="flex-1 min-w-0">
+                  <span className="font-title-md text-title-md text-on-surface block truncate">{m.username}</span>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant truncate">{m.title || 'Member'}</p>
+                </div>
+              </button>
+            ))
+          ) : conversations.length === 0 ? (
+            <p className="font-body-sm text-body-sm text-on-surface-variant/60 px-3">No conversations yet — search a member above to start one.</p>
+          ) : (
+            conversations.map((c) => {
+              const peer = otherParticipant(c, user.id);
+              const status = peer ? resolveStatus(peer) : null;
+              const active = c.id === selectedId;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedId(c.id)}
+                  type="button"
+                  className={`w-full flex items-center p-3 rounded-xl cursor-pointer relative transition-colors duration-300 text-left ${
+                    active ? 'bg-surface-variant border-l-2 border-primary' : 'hover:bg-surface-variant/50'
+                  }`}
+                >
+                  <div className="relative w-12 h-12 flex-shrink-0 mr-4">
+                    {status === 'online' && <div className="presence-ring" />}
+                    <Avatar name={conversationTitle(c, user.id)} avatarUrl={peer?.avatarUrl} size={48} className="border border-outline-variant/50" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-baseline mb-1">
+                      <span className={`font-title-md text-title-md truncate block ${active ? 'text-primary font-bold' : 'text-on-surface'}`}>
+                        {conversationTitle(c, user.id)}
+                      </span>
+                      {c.lastMessage && <span className="font-body-sm text-[10px] text-on-surface-variant/60">{relativeTime(c.lastMessage.createdAt)}</span>}
+                    </div>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant/70 truncate">{c.lastMessage?.text || 'No messages yet'}</p>
+                  </div>
+                </button>
+              );
+            })
+          )}
+        </nav>
+      </aside>
+
+      <main className="ml-[40rem] flex-1 flex flex-col relative bg-surface-container-lowest h-screen overflow-hidden">
+        {!selected ? (
+          <div className="flex-1 flex items-center justify-center text-on-surface-variant/60 font-title-md text-title-md">
+            Select a conversation to begin.
+          </div>
+        ) : (
+          <>
+            <header className="h-20 px-gutter flex justify-between items-center border-b border-outline-variant/30 bg-surface-container-lowest/80 backdrop-blur-md z-10 flex-shrink-0">
+              <div className="flex items-center">
+                <div className="relative w-10 h-10 mr-4">
+                  {otherStatus === 'online' && <div className="presence-ring" />}
+                  <Avatar name={title} avatarUrl={other?.avatarUrl} size={40} className="border border-primary/50" />
+                </div>
+                <div>
+                  <h2 className="font-title-md text-title-md text-primary font-bold">{title}</h2>
+                  <div className="flex items-center mt-0.5 gap-2">
+                    {isPeerTyping ? (
+                      <span className="font-label-caps text-[10px] text-primary tracking-widest uppercase">typing…</span>
+                    ) : other ? (
+                      <span className="font-label-caps text-[10px] text-on-surface-variant tracking-widest uppercase">
+                        {otherStatus === 'online' ? 'Active now' : `Last seen ${relativeTime(other.lastSeen)}`}
+                      </span>
+                    ) : (
+                      <span className="font-label-caps text-[10px] text-on-surface-variant tracking-widest uppercase">{selected.participants.length} members</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-panel-padding space-y-6 z-10 flex flex-col relative">
