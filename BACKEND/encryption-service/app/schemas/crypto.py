@@ -28,3 +28,13 @@ class EncryptBatchResponse(BaseModel):
 
 
 class DecryptItem(BaseModel):
+    ciphertext: str
+    keyVersion: str
+
+
+class DecryptBatchRequest(BaseModel):
+    items: list[DecryptItem]
+
+
+class DecryptBatchResponse(BaseModel):
+    items: list[DecryptResponse]
