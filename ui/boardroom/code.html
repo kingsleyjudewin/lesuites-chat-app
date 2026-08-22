@@ -150,3 +150,79 @@
 </nav>
 <!-- Main Content Area -->
 <main class="ml-80 flex-1 flex h-screen overflow-hidden">
+<!-- Left Panel: Boardrooms -->
+<section class="w-96 glass-panel border-r border-white/5 flex flex-col">
+<div class="p-gutter pb-4">
+<h2 class="font-headline-lg text-headline-lg mb-6">Boardrooms</h2>
+<div class="relative mb-6">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-[#121212] border-none border-b border-outline/30 text-on-surface font-body-lg pl-12 pr-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary transition-all rounded-t-lg" placeholder="Search discussions..." type="text"/>
+</div>
+<button class="w-full bg-surface-container-high border border-outline/30 hover:border-primary/50 text-primary font-title-md text-title-md py-3 rounded-lg gold-glint flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined">add</span>
+                    Create Boardroom
+                </button>
+</div>
+<div class="gold-separator mx-gutter mb-4"></div>
+<div class="flex-1 overflow-y-auto px-gutter pb-gutter space-y-3 custom-scrollbar">
+<!-- Active Boardroom -->
+<div class="p-4 rounded-xl bg-surface-container/50 border border-primary/50 cursor-pointer marble-bg relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-title-md text-title-md text-primary">Executive Leadership</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">2m</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Q3 financial strategy alignment is required...</p>
+</div>
+<!-- Inactive Boardrooms -->
+<div class="p-4 rounded-xl bg-surface/30 border border-white/5 hover:border-outline/50 cursor-pointer transition-colors marble-bg">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-title-md text-title-md">Strategy Council</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">1h</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 truncate">Review of pending mergers and acquisitions.</p>
+</div>
+<div class="p-4 rounded-xl bg-surface/30 border border-white/5 hover:border-outline/50 cursor-pointer transition-colors marble-bg">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-title-md text-title-md">Global Operations</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 truncate">Logistics updates from the EMEA region.</p>
+</div>
+</div>
+</section>
+<!-- Center Panel: Discussion (Active State) -->
+<section class="flex-1 flex flex-col relative">
+<!-- Header -->
+<header class="h-20 glass-panel border-b border-white/5 px-gutter flex items-center justify-between z-10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-outline/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">corporate_fare</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-lg">Executive Leadership</h2>
+<div class="font-label-caps text-label-caps text-on-surface-variant/70 mt-1">4 Members Online</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-on-surface-variant transition-colors group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">call</span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-on-surface-variant transition-colors group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">videocam</span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-on-surface-variant transition-colors group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">info</span>
+</button>
+</div>
+</header>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-gutter space-y-6 flex flex-col relative z-0">
+<!-- Incoming Message (Crystal Glass) -->
+<div class="flex gap-4 max-w-[80%]">
+<img class="w-10 h-10 rounded-full object-cover border border-outline/20 self-end" data-alt="A sophisticated corporate avatar of a male executive, sharp suit, dark moody lighting, cinematic realism, subtle metallic reflections, luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfInHklqQI4zilaUjcjEVHJglRrjMotp7zCJLlmAmFUbjSqKvNan_iQ3SA90sgpyvH-jAnGa802SMHp6q1uzh2JHCGqIATdcXLluX0Xczh4u2SgUS8172edffSZJv_oU4HxScoaJTQEDffRr4k1Bd2ZuwDmQvNwVqjJa9qnKl6smXu8nxSVQa6bWYVSpV9CS4a7BtH87D_8g7P79vhYMpw3Nhq02c8oi-KeS4REYkvwQ_Km_jf2mgb5g"/>
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 ml-2">A. Sterling - 10:42 AM</span>
+<div class="bg-surface-container/40 backdrop-blur-md border border-white/10 rounded-2xl rounded-bl-none p-4 font-body-lg text-on-surface shadow-lg">
+                            The Q3 reports indicate a need to pivot our resource allocation in the APAC region. I propose we schedule an immediate briefing with regional directors.
+                        </div>
