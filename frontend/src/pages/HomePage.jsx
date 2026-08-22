@@ -58,3 +58,23 @@ export function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full mt-24">
             {CARDS.map((card) => (
               <Link
+                key={card.key}
+                to={card.to}
+                className="glass-panel rounded-xl p-8 flex flex-col items-center justify-center transition-all duration-500 cursor-pointer group hover:border-primary/30"
+              >
+                <div className="w-12 h-12 rounded-full bg-surface-bright/50 flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
+                  <span className="material-symbols-outlined text-primary text-2xl">{card.icon}</span>
+                </div>
+                <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase mb-2">{card.label}</span>
+                <span className="font-display-lg text-[32px] text-on-surface mb-1">{counts[card.key] ?? '—'}</span>
+                <span className="font-title-md text-title-md text-on-surface opacity-90 group-hover:text-primary transition-colors">
+                  {card.title}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
