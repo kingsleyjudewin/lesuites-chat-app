@@ -2,3 +2,7 @@ import * as notificationService from '../../modules/notifications/notification.s
 import { logger } from '../../utils/logger.js';
 
 export function registerNotificationHandlers(io, socket) {
+  const userId = socket.userId;
+
+  socket.on('notification_read', async (notificationId, ack) => {
+    try {
