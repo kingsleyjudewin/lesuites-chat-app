@@ -8,3 +8,8 @@ export function registerBoardroomHandlers(io, socket) {
       await boardroomService.assertMember(boardroomId, userId);
       socket.join(`boardroom:${boardroomId}`);
       ack?.({ success: true });
+    } catch {
+      ack?.({ success: false, error: 'Not a member of this boardroom' });
+    }
+  });
+
