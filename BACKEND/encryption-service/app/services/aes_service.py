@@ -19,3 +19,9 @@ def encrypt(plaintext: str, key_version: str | None = None) -> tuple[str, str]:
 
 
 def decrypt(blob: str, key_version: str) -> str:
+    key = key_manager.get_data_key(key_version)
+    raw = base64.b64decode(blob)
+    nonce, ct = raw[:NONCE_SIZE], raw[NONCE_SIZE:]
+    aesgcm = AESGCM(key)
+    plaintext = aesgcm.decrypt(nonce, ct, None)
+    return plaintext.decode("utf-8")
