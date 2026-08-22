@@ -21,3 +21,14 @@ export function registerPresenceHandlers(io, socket) {
     if (cameOnline) {
       await presenceService.setStatus(userId, PRESENCE_STATUS.ONLINE);
       await broadcastToPeers('user_online', { userId });
+    }
+  }
+
+  async function handleDisconnect() {
+    const fullyDisconnected = presenceService.removeSocket(userId, socket.id);
+    if (fullyDisconnected) {
+      presenceService.scheduleOfflineCheck(userId, async () => {
+        await presenceService.setStatus(userId, PRESENCE_STATUS.OFFLINE);
+        await broadcastToPeers('user_offline', { userId, lastSeen: new Date() });
+      });
+    }
