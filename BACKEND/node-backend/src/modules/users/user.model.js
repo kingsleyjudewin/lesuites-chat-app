@@ -15,3 +15,11 @@ const userSchema = new mongoose.Schema(
     lastSeen: { type: Date, default: Date.now },
   },
   { timestamps: true }
+);
+
+userSchema.index({ username: 'text', title: 'text', tags: 'text' });
+
+userSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_doc, ret) => {
+    ret.id = ret._id.toString();
