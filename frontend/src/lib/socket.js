@@ -15,3 +15,8 @@ export function disconnectSocket() {
     socket.disconnect();
     socket = null;
   }
+}
+
+export function getSocket() {
+  return socket;
+}
