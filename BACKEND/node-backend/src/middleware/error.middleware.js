@@ -4,3 +4,9 @@ import { env } from '../config/env.js';
 
 export function notFound(req, res, next) {
   next(new ApiError(404, `Route not found: ${req.method} ${req.originalUrl}`));
+}
+
+export function errorHandler(err, req, res, next) {
+  const statusCode = err instanceof ApiError ? err.statusCode : 500;
+  const message = err.isOperational ? err.message : 'Internal server error';
+
