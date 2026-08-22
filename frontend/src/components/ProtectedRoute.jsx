@@ -11,3 +11,7 @@ export function ProtectedRoute() {
       </div>
     );
   }
+
+  if (!user) return <Navigate to="/login" replace />;
+  return <Outlet />;
+}
