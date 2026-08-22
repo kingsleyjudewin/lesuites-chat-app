@@ -11,3 +11,16 @@ export const create = catchAsync(async (req, res) => {
 
 export const list = catchAsync(async (req, res) => {
   const boardrooms = await boardroomService.listForUser(req.user.id);
+  res.json({ success: true, data: boardrooms });
+});
+
+export const getById = catchAsync(async (req, res) => {
+  await boardroomService.assertMember(req.params.id, req.user.id);
+  const boardroom = await boardroomService.getById(req.params.id);
+  res.json({ success: true, data: boardroom });
+});
+
+export const getMessages = catchAsync(async (req, res) => {
+  const messages = await messageService.listMessages({
+    contextType: CONTEXT_TYPE.BOARDROOM,
+    contextId: req.params.id,
