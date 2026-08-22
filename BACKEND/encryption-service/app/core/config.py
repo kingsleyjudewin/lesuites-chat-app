@@ -9,3 +9,6 @@ class Settings(BaseSettings):
     master_key_b64: str
     active_key_version: str = "v1"
     signature_window_seconds: int = 60
+
+
+settings = Settings()
