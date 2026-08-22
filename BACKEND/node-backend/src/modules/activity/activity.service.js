@@ -14,3 +14,8 @@ export async function getFeed(userId, limit = 20) {
 // Backs the Member Activity sidebar's "Network Intelligence" panel: boardrooms joined + accepted connections, in one round trip.
 export async function getOnlineSidebar(userId) {
   const [boardroomsJoined, connectionsCount] = await Promise.all([
+    Boardroom.countDocuments({ 'members.userId': userId }),
+    ConnectionRequest.countDocuments({ status: CONNECTION_STATUS.ACCEPTED, $or: [{ sender: userId }, { receiver: userId }] }),
+  ]);
+  return { boardroomsJoined, connectionsCount };
+}
