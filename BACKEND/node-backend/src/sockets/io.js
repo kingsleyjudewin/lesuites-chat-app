@@ -6,3 +6,5 @@ export function setIO(io) {
 
 export function getIO() {
   if (!ioInstance) throw new Error('Socket.IO not initialized');
+  return ioInstance;
+}
