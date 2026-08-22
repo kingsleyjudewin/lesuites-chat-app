@@ -42,3 +42,17 @@ export function registerMessagingHandlers(io, socket) {
   socket.on('message_seen', async ({ messageId }) => {
     try {
       const { message, room } = await messageService.markSeen({ messageId, userId });
+      io.to(room).emit('message_seen', { messageId: message.id, userId, seenAt: new Date() });
+    } catch (err) {
+      logger.error('message_seen failed', err);
+    }
+  });
+
+  socket.on('user_typing', ({ contextType, contextId }) => {
+    socket.to(`${contextType}:${contextId}`).emit('user_typing', { userId, contextType, contextId });
+  });
+
+  socket.on('user_stopped_typing', ({ contextType, contextId }) => {
+    socket.to(`${contextType}:${contextId}`).emit('user_stopped_typing', { userId, contextType, contextId });
+  });
+}
