@@ -12,3 +12,9 @@ export const authenticate = catchAsync(async (req, res, next) => {
   try {
     const payload = jwt.verify(token, env.JWT_ACCESS_SECRET);
     req.user = { id: payload.sub, role: payload.role };
+    next();
+  } catch {
+    throw new ApiError(401, 'Invalid or expired token');
+  }
+});
+
