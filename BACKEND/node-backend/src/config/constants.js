@@ -23,3 +23,11 @@ export const NOTIFICATION_TYPE = {
 
 export const ACTIVITY_TYPE = {
   JOINED_BOARDROOM: 'joined_boardroom',
+  LEFT_BOARDROOM: 'left_boardroom',
+  CONNECTED_WITH: 'connected_with',
+  PROFILE_UPDATED: 'profile_updated',
+};
+
+export const ACCESS_TOKEN_TTL = '15m';
+export const REFRESH_TOKEN_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+export const PRESENCE_OFFLINE_GRACE_MS = 10_000;
