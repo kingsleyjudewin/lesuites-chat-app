@@ -19,3 +19,10 @@ fileAttachmentSchema.index({ contextType: 1, contextId: 1 });
 fileAttachmentSchema.set('toJSON', {
   transform: (_doc, ret) => {
     ret.id = ret._id.toString();
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  },
+});
+
+export const FileAttachment = mongoose.model('FileAttachment', fileAttachmentSchema);
