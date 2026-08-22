@@ -15,3 +15,19 @@ export function addSocket(userId, socketId) {
 export function removeSocket(userId, socketId) {
   const set = activeSockets.get(userId);
   if (!set) return true;
+  set.delete(socketId);
+  if (set.size === 0) {
+    activeSockets.delete(userId);
+    return true;
+  }
+  return false;
+}
+
+export function isOnline(userId) {
+  return activeSockets.has(userId);
+}
+
+export async function getPeerUserIds(userId) {
+  const [conversations, boardrooms] = await Promise.all([
+    Conversation.find({ participants: userId }).select('participants').lean(),
+    Boardroom.find({ 'members.userId': userId }).select('members.userId').lean(),
