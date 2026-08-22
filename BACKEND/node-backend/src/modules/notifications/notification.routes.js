@@ -4,3 +4,6 @@ import { authenticate } from '../../middleware/auth.middleware.js';
 
 const router = Router();
 router.use(authenticate);
+
+router.get('/', notificationController.list);
+router.patch('/:id/read', notificationController.markRead);
