@@ -20,3 +20,24 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     setOnAuthLost(clearSession);
+  }, [clearSession]);
+
+  // Silent session restore on load, using the httpOnly refresh cookie the backend already sets.
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await api.refreshAccessToken();
+        if (token) {
+          applyToken(token);
+          setUser(await api.get('/users/me'));
+        }
+      } catch {
+        /* no valid session */
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [applyToken]);
+
+  const login = useCallback(
+    async (email, password) => {
