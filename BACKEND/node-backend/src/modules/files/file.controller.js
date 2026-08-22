@@ -15,3 +15,8 @@ export const downloadUrl = catchAsync(async (req, res) => {
   const url = await fileService.getDownloadUrl(req.user.id, req.params.id);
   res.json({ success: true, data: { url } });
 });
+
+export const remove = catchAsync(async (req, res) => {
+  await fileService.remove(req.user.id, req.params.id);
+  res.json({ success: true, data: null });
+});
