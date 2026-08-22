@@ -39,3 +39,16 @@ export async function encrypt(plaintext) {
 }
 
 export async function decrypt(ciphertext, keyVersion) {
+  const { plaintext } = await call('/decrypt', { ciphertext, keyVersion });
+  return plaintext;
+}
+
+export async function encryptBatch(plaintexts) {
+  const { items } = await call('/encrypt/batch', { plaintexts });
+  return items; // [{ ciphertext, keyVersion }]
+}
+
+export async function decryptBatch(items) {
+  const { items: results } = await call('/decrypt/batch', { items });
+  return results; // [{ plaintext }]
+}
