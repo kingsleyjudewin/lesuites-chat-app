@@ -101,3 +101,106 @@ export function MessagingPage() {
         const next = new Set(set);
         next.delete(userId);
         return next;
+      });
+    };
+
+    socket.on('receive_message', onReceive);
+    socket.on('message_edited', onEdited);
+    socket.on('message_deleted', onDeleted);
+    socket.on('message_seen', onSeen);
+    socket.on('user_typing', onTyping);
+    socket.on('user_stopped_typing', onStoppedTyping);
+
+    return () => {
+      socket.off('receive_message', onReceive);
+      socket.off('message_edited', onEdited);
+      socket.off('message_deleted', onDeleted);
+      socket.off('message_seen', onSeen);
+      socket.off('user_typing', onTyping);
+      socket.off('user_stopped_typing', onStoppedTyping);
+    };
+  }, [socket, selectedId]);
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setMemberResults([]);
+      return undefined;
+    }
+    const handle = setTimeout(async () => {
+      const result = await api.get(`/users?q=${encodeURIComponent(query.trim())}`);
+      setMemberResults(result.items.filter((u) => u.id !== user.id));
+    }, 250);
+    return () => clearTimeout(handle);
+  }, [query, user.id]);
+
+  async function openDirectConversation(memberId) {
+    const conversation = await api.post('/conversations', { type: 'direct', participantId: memberId });
+    await loadConversations();
+    setSelectedId(conversation.id);
+    setQuery('');
+  }
+
+  function handleDraftChange(value) {
+    setDraft(value);
+    if (!socket || !selectedId) return;
+    socket.emit('user_typing', { contextType: 'conversation', contextId: selectedId });
+    clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit('user_stopped_typing', { contextType: 'conversation', contextId: selectedId });
+    }, 1500);
+  }
+
+  function sendMessage(e) {
+    e.preventDefault();
+    if (!draft.trim() || !socket || !selectedId) return;
+    socket.emit('send_message', { contextType: 'conversation', contextId: selectedId, text: draft.trim() }, (ack) => {
+      if (!ack.success) setError(ack.error || 'Failed to send message');
+    });
+    setDraft('');
+    socket.emit('user_stopped_typing', { contextType: 'conversation', contextId: selectedId });
+  }
+
+  async function saveEdit(messageId) {
+    if (!editDraft.trim()) return;
+    await api.patch(`/messages/${messageId}`, { text: editDraft.trim() });
+    setEditingId(null);
+  }
+
+  async function deleteMessage(messageId) {
+    await api.delete(`/messages/${messageId}`);
+  }
+
+  async function react(messageId, type) {
+    await api.post(`/messages/${messageId}/reactions`, { type });
+  }
+
+  async function handleAttach(e) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file || !selectedId) return;
+    try {
+      const { uploadUrl, storageKey } = await api.post('/files/presign', {
+        contextType: 'conversation',
+        contextId: selectedId,
+        fileName: file.name,
+        mimeType: file.type,
+        size: file.size,
+      });
+      await fetch(uploadUrl, { method: 'PUT', body: file, headers: { 'content-type': file.type } });
+      await api.post('/files', {
+        storageKey,
+        contextType: 'conversation',
+        contextId: selectedId,
+        originalName: file.name,
+        mimeType: file.type,
+        size: file.size,
+      });
+      socket.emit('send_message', { contextType: 'conversation', contextId: selectedId, text: `📎 Shared a file: ${file.name}` });
+    } catch (err) {
+      setError(err.message || 'File upload failed');
+    }
+  }
+
+  const title = selected ? conversationTitle(selected, user.id) : null;
+  const other = selected ? otherParticipant(selected, user.id) : null;
+  const otherStatus = other ? resolveStatus(other) : null;
