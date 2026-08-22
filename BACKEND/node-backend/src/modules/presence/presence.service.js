@@ -47,3 +47,19 @@ export async function setStatus(userId, status) {
 // Grace window absorbs tab-switches/reconnects so a brief drop doesn't flash the user offline to their peers.
 export function scheduleOfflineCheck(userId, onConfirmedOffline) {
   clearOfflineCheck(userId);
+  const timer = setTimeout(async () => {
+    offlineTimers.delete(userId);
+    if (!isOnline(userId)) {
+      await onConfirmedOffline();
+    }
+  }, PRESENCE_OFFLINE_GRACE_MS);
+  offlineTimers.set(userId, timer);
+}
+
+export function clearOfflineCheck(userId) {
+  const timer = offlineTimers.get(userId);
+  if (timer) {
+    clearTimeout(timer);
+    offlineTimers.delete(userId);
+  }
+}
