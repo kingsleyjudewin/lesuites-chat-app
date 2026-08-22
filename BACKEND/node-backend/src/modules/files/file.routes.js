@@ -10,3 +10,6 @@ router.use(authenticate);
 router.post('/presign', validate(presignSchema), fileController.presign);
 router.post('/', validate(confirmUploadSchema), fileController.confirm);
 router.get('/:id/download-url', fileController.downloadUrl);
+router.delete('/:id', fileController.remove);
+
+export default router;
