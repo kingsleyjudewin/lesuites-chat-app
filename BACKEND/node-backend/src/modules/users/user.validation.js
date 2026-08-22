@@ -6,3 +6,7 @@ export const updateProfileSchema = z.object({
   tags: z.array(z.string().max(32)).max(10).optional(),
   bio: z.string().max(1000).optional(),
 });
+
+export const listUsersQuerySchema = z.object({
+  q: z.string().optional(),
+  status: z.enum(['online', 'offline', 'away']).optional(),
