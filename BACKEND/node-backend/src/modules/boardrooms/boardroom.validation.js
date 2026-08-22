@@ -5,3 +5,5 @@ export const createBoardroomSchema = z.object({
   description: z.string().max(500).optional(),
   memberIds: z.array(z.string()).optional(),
 });
+
+export const addMemberSchema = z.object({ userId: z.string() });
