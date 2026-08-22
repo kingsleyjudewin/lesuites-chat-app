@@ -62,3 +62,24 @@ export function AuthProvider({ children }) {
   const logout = useCallback(async () => {
     try {
       await api.post('/auth/logout');
+    } catch {
+      /* proceed to clear local session regardless */
+    }
+    clearSession();
+  }, [clearSession]);
+
+  const updateUser = useCallback((patch) => setUser((u) => (u ? { ...u, ...patch } : u)), []);
+
+  const value = useMemo(
+    () => ({ user, accessToken, loading, login, register, logout, updateUser }),
+    [user, accessToken, loading, login, register, logout, updateUser]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  return ctx;
+}
