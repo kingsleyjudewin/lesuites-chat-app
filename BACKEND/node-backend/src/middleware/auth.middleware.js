@@ -18,3 +18,9 @@ export const authenticate = catchAsync(async (req, res, next) => {
   }
 });
 
+export const authorize = (...roles) => (req, res, next) => {
+  if (!req.user || !roles.includes(req.user.role)) {
+    return next(new ApiError(403, 'Insufficient permissions'));
+  }
+  next();
+};
