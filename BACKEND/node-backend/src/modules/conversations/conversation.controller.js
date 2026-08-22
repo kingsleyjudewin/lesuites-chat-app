@@ -14,3 +14,10 @@ export const create = catchAsync(async (req, res) => {
     type === 'direct'
       ? await conversationService.getOrCreateDirect(req.user.id, participantId)
       : await conversationService.createGroup(req.user.id, { name, participantIds: participantIds || [] });
+  res.status(201).json({ success: true, data: conversation });
+});
+
+export const getMessages = catchAsync(async (req, res) => {
+  await conversationService.assertParticipant(req.params.id, req.user.id);
+  const messages = await messageService.listMessages({
+    contextType: CONTEXT_TYPE.CONVERSATION,
