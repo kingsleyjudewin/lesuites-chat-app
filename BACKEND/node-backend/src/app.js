@@ -12,3 +12,10 @@ import { generalLimiter } from './middleware/rateLimiter.js';
 export const app = express();
 
 app.set('trust proxy', 1);
+
+app.use(helmet());
+app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
+app.use(express.json({ limit: '1mb' }));
+app.use(cookieParser(env.COOKIE_SECRET));
+app.use(mongoSanitize());
+app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
