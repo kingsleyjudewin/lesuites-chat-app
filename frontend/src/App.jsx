@@ -6,3 +6,11 @@ import { LoginPage } from './pages/LoginPage';
 import { HomePage } from './pages/HomePage';
 import { MessagingPage } from './pages/MessagingPage';
 import { BoardroomPage } from './pages/BoardroomPage';
+import { MemberActivityPage } from './pages/MemberActivityPage';
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <SocketProvider>
+          <Routes>
