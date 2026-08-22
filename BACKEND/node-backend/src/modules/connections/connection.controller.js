@@ -4,3 +4,9 @@ import { getIO } from '../../sockets/io.js';
 
 export const sendRequest = catchAsync(async (req, res) => {
   const request = await connectionService.sendRequest(req.user.id, req.body.receiverId);
+  getIO().to(`user:${req.body.receiverId}`).emit('connection_request_received', request);
+  res.status(201).json({ success: true, data: request });
+});
+
+export const respond = catchAsync(async (req, res) => {
+  const request = await connectionService.respond(req.params.id, req.user.id, req.body.status);
