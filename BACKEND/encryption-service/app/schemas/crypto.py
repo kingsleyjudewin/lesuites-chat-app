@@ -8,3 +8,13 @@ class EncryptRequest(BaseModel):
 class EncryptResponse(BaseModel):
     ciphertext: str
     keyVersion: str
+
+
+class DecryptRequest(BaseModel):
+    ciphertext: str
+    keyVersion: str
+
+
+class DecryptResponse(BaseModel):
+    plaintext: str
+
