@@ -5,3 +5,9 @@ const connectionRequestSchema = new mongoose.Schema(
   {
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     receiver: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    status: { type: String, enum: Object.values(CONNECTION_STATUS), default: CONNECTION_STATUS.PENDING },
+    respondedAt: { type: Date, default: null },
+  },
+  { timestamps: true }
+);
+
