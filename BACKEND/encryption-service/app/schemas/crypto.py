@@ -18,3 +18,13 @@ class DecryptRequest(BaseModel):
 class DecryptResponse(BaseModel):
     plaintext: str
 
+
+class EncryptBatchRequest(BaseModel):
+    plaintexts: list[str]
+
+
+class EncryptBatchResponse(BaseModel):
+    items: list[EncryptResponse]
+
+
+class DecryptItem(BaseModel):
