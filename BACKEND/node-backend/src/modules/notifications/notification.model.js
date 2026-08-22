@@ -16,3 +16,8 @@ notificationSchema.set('toJSON', {
     ret.id = ret._id.toString();
     delete ret._id;
     delete ret.__v;
+    return ret;
+  },
+});
+
+export const Notification = mongoose.model('Notification', notificationSchema);
