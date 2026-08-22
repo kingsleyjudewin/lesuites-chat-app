@@ -41,3 +41,17 @@ export async function getOrCreateDirect(userId, otherUserId) {
   if (!conversation) {
     conversation = await Conversation.create({ type: CONVERSATION_TYPE.DIRECT, participants: [userId, otherUserId] });
   }
+  return conversation;
+}
+
+export async function createGroup(userId, { name, participantIds }) {
+  const participants = [...new Set([userId, ...participantIds])];
+  if (participants.length < 3) throw new ApiError(400, 'Group conversations need at least 3 participants');
+  return Conversation.create({ type: CONVERSATION_TYPE.GROUP, name, participants });
+}
+
+export async function assertParticipant(conversationId, userId) {
+  const conversation = await Conversation.findOne({ _id: conversationId, participants: userId });
+  if (!conversation) throw new ApiError(403, 'Not a participant of this conversation');
+  return conversation;
+}
