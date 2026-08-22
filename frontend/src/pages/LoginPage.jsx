@@ -136,3 +136,48 @@ export function LoginPage() {
                 >
                   {mode === 'login' ? 'New here? Register' : 'Already a member? Sign in'}
                 </button>
+              </div>
+
+              <div className="pt-4">
+                <button className="btn-gold w-full rounded-lg py-4 px-6 font-title-md text-title-md flex items-center justify-center space-x-2 group" type="submit" disabled={submitting}>
+                  <span>{submitting ? 'Please wait...' : mode === 'login' ? 'Enter LeSuits' : 'Create Account'}</span>
+                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+                </button>
+              </div>
+            </form>
+
+            <div className="relative flex items-center py-2">
+              <div className="flex-grow border-t-[0.5px] border-outline-variant/30" />
+              <span className="flex-shrink-0 mx-4 font-label-caps text-label-caps text-on-surface-variant/60">OR CONTINUE WITH</span>
+              <div className="flex-grow border-t-[0.5px] border-outline-variant/30" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button className="btn-social-glass rounded-lg py-3 flex items-center justify-center space-x-2 text-on-surface" disabled title="Not yet available">
+                <span className="font-title-md text-[14px]">Google</span>
+              </button>
+              <button className="btn-social-glass rounded-lg py-3 flex items-center justify-center space-x-2 text-on-surface" disabled title="Not yet available">
+                <span className="font-title-md text-[14px]">Apple</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer className="bg-transparent border-t-[0.5px] border-outline-variant/30 backdrop-blur-xl flex flex-row justify-between items-center px-margin-safe py-4 w-full z-50 mt-auto">
+        <div className="flex items-center space-x-4 text-tertiary font-label-caps text-label-caps">
+          <span>© 2026 LeSuits Private Circle. Signature Verified.</span>
+          <span className="hidden md:flex items-center space-x-1 text-primary/70">
+            <span className="material-symbols-outlined text-[14px]">shield</span>
+            <span className="normal-case tracking-normal opacity-80">End-to-End Encrypted</span>
+          </span>
+        </div>
+        <div className="flex space-x-6 text-on-surface-variant font-label-caps text-label-caps">
+          <span>Privacy</span>
+          <span>Security</span>
+          <span>Terms</span>
+        </div>
+      </footer>
+    </div>
+  );
+}
