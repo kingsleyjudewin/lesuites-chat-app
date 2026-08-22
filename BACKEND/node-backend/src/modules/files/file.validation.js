@@ -14,3 +14,11 @@ export const presignSchema = z.object({
   contextId: z.string(),
   fileName: z.string().min(1).max(255),
   mimeType: z.enum(ALLOWED_MIME_TYPES),
+  size: z
+    .number()
+    .int()
+    .positive()
+    .max(25 * 1024 * 1024),
+});
+
+export const confirmUploadSchema = z.object({
