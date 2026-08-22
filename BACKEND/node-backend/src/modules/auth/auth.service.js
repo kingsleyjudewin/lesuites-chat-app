@@ -40,3 +40,24 @@ export async function register({ username, email, password }, meta) {
   const refreshToken = await issueRefreshToken(user.id, meta);
   return { user, accessToken, refreshToken };
 }
+
+export async function login({ email, password }, meta) {
+  const user = await User.findOne({ email }).select('+passwordHash');
+  if (!user) throw new ApiError(401, 'Invalid credentials');
+
+  const valid = await bcrypt.compare(password, user.passwordHash);
+  if (!valid) throw new ApiError(401, 'Invalid credentials');
+
+  const accessToken = signAccessToken(user);
+  const refreshToken = await issueRefreshToken(user.id, meta);
+  return { user, accessToken, refreshToken };
+}
+
+export async function refresh(oldToken, meta) {
+  if (!oldToken) throw new ApiError(401, 'Refresh token required');
+
+  const tokenHash = hashToken(oldToken);
+  const stored = await RefreshToken.findOne({ tokenHash });
+
+  if (!stored || stored.revokedAt || stored.expiresAt < new Date()) {
+    if (stored?.revokedAt) {
