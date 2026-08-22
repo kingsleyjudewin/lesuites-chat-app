@@ -8,3 +8,6 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/:userId', presenceController.getStatus);
+router.patch('/me', validate(setStatusSchema), presenceController.setStatus);
+
+export default router;
