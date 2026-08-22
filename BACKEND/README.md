@@ -42,3 +42,25 @@ docker compose up --build
 ## Running node-backend locally without Docker
 
 ```bash
+cd node-backend
+npm install
+npm run dev
+```
+
+Requires a reachable `MONGO_URI` and the encryption service running separately (`uvicorn app.main:app --reload
+--port 8001` from inside `encryption-service/`, with its `.env` in place and `pip install -r requirements.txt`
+run first).
+
+## Manual smoke test
+
+Once both services and Mongo are up:
+
+```bash
+# 1. Register
+curl -i -c cookies.txt -X POST http://localhost:4000/api/v1/auth/register \
+  -H "content-type: application/json" \
+  -d '{"username":"a_sterling","email":"a@lesuits.test","password":"a-strong-password"}'
+# → 201, note the accessToken in the response body
+
+# 2. Register a second user to talk to
+curl -s -X POST http://localhost:4000/api/v1/auth/register \
