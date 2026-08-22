@@ -17,3 +17,9 @@ connectionRequestSchema.set('toJSON', {
   transform: (_doc, ret) => {
     ret.id = ret._id.toString();
     delete ret._id;
+    delete ret.__v;
+    return ret;
+  },
+});
+
+export const ConnectionRequest = mongoose.model('ConnectionRequest', connectionRequestSchema);
