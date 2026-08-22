@@ -20,3 +20,13 @@ const messageSchema = new mongoose.Schema(
         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         type: { type: String, enum: Object.values(REACTION_TYPE) },
       },
+    ],
+    editedAt: { type: Date, default: null },
+    deletedAt: { type: Date, default: null },
+  },
+  { timestamps: true }
+);
+
+messageSchema.index({ contextType: 1, contextId: 1, createdAt: -1 });
+
+messageSchema.set('toJSON', {
