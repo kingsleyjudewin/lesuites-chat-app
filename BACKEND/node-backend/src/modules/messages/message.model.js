@@ -30,3 +30,13 @@ const messageSchema = new mongoose.Schema(
 messageSchema.index({ contextType: 1, contextId: 1, createdAt: -1 });
 
 messageSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    ret.id = ret._id.toString();
+    delete ret._id;
+    delete ret.__v;
+    delete ret.ciphertext; // clients only ever see the decrypted `text` the service layer attaches, never the raw blob
+    return ret;
+  },
+});
+
+export const Message = mongoose.model('Message', messageSchema);
