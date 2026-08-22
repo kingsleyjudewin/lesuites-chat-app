@@ -124,3 +124,66 @@ export function MemberActivityPage() {
                 <article
                   key={m.id}
                   onClick={() => setSelectedId(m.id)}
+                  className="group relative bg-surface-container/40 backdrop-blur-lg border border-white/5 hover:border-primary/30 rounded-xl p-5 cursor-pointer transition-all duration-500 hover:bg-surface-container/60 hover:-translate-y-1"
+                >
+                  <div className="flex gap-4 items-center relative z-10">
+                    <div className="relative">
+                      <Avatar
+                        name={m.username}
+                        avatarUrl={m.avatarUrl}
+                        size={56}
+                        className={`border border-white/10 ${!online ? 'grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100' : ''}`}
+                      />
+                      {online && <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-primary rounded-full border-2 border-surface presence-dot" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-title-md text-title-md text-on-surface truncate group-hover:text-primary transition-colors">{m.username}</h3>
+                      <p className="font-body-sm text-body-sm text-on-surface-variant truncate">{m.title || 'Member'}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center relative z-10">
+                    <div className="flex gap-2 flex-wrap">
+                      {(m.tags || []).slice(0, 2).map((tag) => (
+                        <span key={tag} className="px-2.5 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-[10px] uppercase tracking-wider">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <span className={`font-body-sm text-body-sm ${online ? 'text-primary/80' : 'text-on-surface-variant/50'}`}>
+                      {online ? 'Active now' : resolveLastSeen(m) ? relativeTime(resolveLastSeen(m)) : ''}
+                    </span>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        {profile && (
+          <aside className="hidden xl:flex w-[480px] h-full bg-surface-container-low/60 backdrop-blur-3xl border-l border-white/5 flex-col relative z-20">
+            <button className="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors" onClick={() => setSelectedId(null)} type="button">
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <div className="p-10 pb-6 border-b border-white/5">
+              <div className="relative w-32 h-32 mx-auto mb-6">
+                <Avatar name={profile.username} avatarUrl={profile.avatarUrl} size={128} className="border-2 border-primary/20" />
+                {resolveStatus(profile) === 'online' && (
+                  <div className="absolute bottom-1 right-1 w-5 h-5 bg-primary rounded-full border-2 border-surface-container-low presence-dot" />
+                )}
+              </div>
+              <div className="text-center">
+                <h2 className="font-headline-lg text-headline-lg text-on-surface mb-1">{profile.username}</h2>
+                <p className="font-title-md text-title-md text-primary/80 mb-4">{profile.title || 'Member'}</p>
+                <div className="flex justify-center gap-2 mb-6 flex-wrap">
+                  {(profile.tags || []).map((tag) => (
+                    <span key={tag} className="px-3 py-1.5 rounded-sm border border-outline-variant/30 text-on-surface font-label-caps text-[11px] uppercase tracking-widest bg-surface/50">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <button
+                  onClick={messageMember}
+                  type="button"
+                  className="w-full py-4 rounded-lg bg-gradient-to-r from-primary-container/20 to-transparent border border-primary/30 text-primary font-title-md text-[15px] hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center gap-2 mb-3"
+                >
+                  <span className="material-symbols-outlined text-[20px]">forum</span>
