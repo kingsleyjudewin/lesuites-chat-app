@@ -83,3 +83,45 @@ typography:
     lineHeight: '1.5'
   label-caps:
     fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '700'
+    lineHeight: '1.0'
+    letterSpacing: 0.1em
+rounded:
+  sm: 0.125rem
+  DEFAULT: 0.25rem
+  md: 0.375rem
+  lg: 0.5rem
+  xl: 0.75rem
+  full: 9999px
+spacing:
+  unit: 4px
+  margin-safe: 32px
+  gutter: 24px
+  panel-padding: 40px
+---
+
+## Brand & Style
+
+The design system is engineered for an ultra-luxury executive environment, evoking the exclusivity of a private members' club. The aesthetic is rooted in **Dark Minimalism** with a **Glassmorphic** layer, utilizing deep obsidian tones to provide a high-contrast stage for metallic accents. The emotional response is one of absolute privacy, prestige, and effortless power.
+
+Key visual pillars include:
+- **Atmospheric Depth:** Multi-layered blacks creating a sense of infinite space.
+- **Metallic Precision:** Accents that mimic brushed gold and polished chrome.
+- **Tactile Refinement:** Subtle textures reminiscent of black marble and high-grade leather.
+- **Motion Elegance:** Slow, purposeful transitions and "glint" animations on hover to simulate light hitting metal.
+
+## Colors
+
+The palette is anchored by **Deep Obsidian Black**, serving as a void that allows the **Luxury Gold** accents to command attention.
+
+- **Primary (Gold):** Used for critical actions, status indicators, and brand-defining separators. 
+- **Secondary (Sapphire):** Reserved for high-priority executive alerts and secure encryption markers.
+- **Tertiary (Emerald):** Used sparingly for confirmation states and financial growth indicators.
+- **Neutral (The Blacks):** Layered from #050505 (base) to #181818 (interactive panels) to create structural hierarchy without the need for traditional borders.
+
+Status indicators replace standard "online" dots with a **Gold Pulse Ring**, symbolizing an active presence within the elite circle.
+
+## Typography
+
+This design system employs a sophisticated typographic contrast between **Playfair Display** and **Inter**. 
