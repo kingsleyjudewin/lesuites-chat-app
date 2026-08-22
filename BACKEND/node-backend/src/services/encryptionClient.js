@@ -12,3 +12,17 @@ async function call(path, body) {
   const signature = sign(payload, timestamp);
 
   let response;
+  try {
+    response = await fetch(`${env.ENCRYPTION_SERVICE_URL}${path}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-service-timestamp': timestamp,
+        'x-service-signature': signature,
+      },
+      body: payload,
+    });
+  } catch {
+    throw new ApiError(503, 'Encryption service unavailable');
+  }
+
