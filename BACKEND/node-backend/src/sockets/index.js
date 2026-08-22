@@ -18,3 +18,13 @@ export function initSocketServer(httpServer) {
     if (!token) return next(new Error('Authentication required'));
     try {
       const payload = jwt.verify(token, env.JWT_ACCESS_SECRET);
+      socket.userId = payload.sub;
+      next();
+    } catch {
+      next(new Error('Invalid or expired token'));
+    }
+  });
+
+  io.on('connection', (socket) => {
+    socket.join(`user:${socket.userId}`);
+    logger.debug(`Socket connected: user=${socket.userId} socket=${socket.id}`);
