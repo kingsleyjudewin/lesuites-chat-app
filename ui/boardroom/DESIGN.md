@@ -41,3 +41,45 @@ colors:
   secondary-fixed-dim: '#c3c0ff'
   on-secondary-fixed: '#0f0069'
   on-secondary-fixed-variant: '#3323cc'
+  tertiary-fixed: '#85f8c4'
+  tertiary-fixed-dim: '#68dba9'
+  on-tertiary-fixed: '#002114'
+  on-tertiary-fixed-variant: '#005137'
+  background: '#16130b'
+  on-background: '#eae1d4'
+  surface-variant: '#38342b'
+typography:
+  display-lg:
+    fontFamily: Playfair Display
+    fontSize: 48px
+    fontWeight: '700'
+    lineHeight: '1.1'
+    letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Playfair Display
+    fontSize: 32px
+    fontWeight: '600'
+    lineHeight: '1.2'
+  headline-lg-mobile:
+    fontFamily: Playfair Display
+    fontSize: 24px
+    fontWeight: '600'
+    lineHeight: '1.2'
+  title-md:
+    fontFamily: Inter
+    fontSize: 18px
+    fontWeight: '600'
+    lineHeight: '1.5'
+    letterSpacing: 0.01em
+  body-lg:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: '1.6'
+  body-sm:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: '1.5'
+  label-caps:
+    fontFamily: Inter
