@@ -15,3 +15,8 @@ export const respond = catchAsync(async (req, res) => {
   }
   res.json({ success: true, data: request });
 });
+
+export const list = catchAsync(async (req, res) => {
+  const requests = await connectionService.listForUser(req.user.id);
+  res.json({ success: true, data: requests });
+});
