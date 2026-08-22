@@ -14,3 +14,8 @@ export const remove = catchAsync(async (req, res) => {
   res.json({ success: true, data: { messageId } });
 });
 
+export const react = catchAsync(async (req, res) => {
+  const { room, message } = await messageService.react({ messageId: req.params.id, userId: req.user.id, type: req.body.type });
+  getIO().to(room).emit('message_reacted', message);
+  res.status(201).json({ success: true, data: message });
+});
