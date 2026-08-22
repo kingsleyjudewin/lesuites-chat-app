@@ -31,3 +31,19 @@ export async function getPeerUserIds(userId) {
   const [conversations, boardrooms] = await Promise.all([
     Conversation.find({ participants: userId }).select('participants').lean(),
     Boardroom.find({ 'members.userId': userId }).select('members.userId').lean(),
+  ]);
+
+  const peers = new Set();
+  conversations.forEach((c) => c.participants.forEach((p) => peers.add(String(p))));
+  boardrooms.forEach((b) => b.members.forEach((m) => peers.add(String(m.userId))));
+  peers.delete(String(userId));
+  return [...peers];
+}
+
+export async function setStatus(userId, status) {
+  await User.findByIdAndUpdate(userId, { status, lastSeen: new Date() });
+}
+
+// Grace window absorbs tab-switches/reconnects so a brief drop doesn't flash the user offline to their peers.
+export function scheduleOfflineCheck(userId, onConfirmedOffline) {
+  clearOfflineCheck(userId);
