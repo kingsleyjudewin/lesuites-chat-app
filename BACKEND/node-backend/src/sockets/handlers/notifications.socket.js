@@ -10,3 +10,7 @@ export function registerNotificationHandlers(io, socket) {
       ack?.({ success: true });
     } catch (err) {
       logger.error('notification_read failed', err);
+      ack?.({ success: false, error: 'Failed to mark notification read' });
+    }
+  });
+}
