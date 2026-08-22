@@ -40,3 +40,17 @@ export async function confirmUpload(userId, data) {
 export async function getDownloadUrl(userId, fileId) {
   const file = await FileAttachment.findById(fileId);
   if (!file) throw new ApiError(404, 'File not found');
+  await assertAccess(file.contextType, file.contextId, userId);
+
+  const command = new GetObjectCommand({ Bucket: env.S3_BUCKET, Key: file.storageKey });
+  return getSignedUrl(s3, command, { expiresIn: 300 });
+}
+
+export async function remove(userId, fileId) {
+  const file = await FileAttachment.findById(fileId);
+  if (!file) throw new ApiError(404, 'File not found');
+  if (String(file.uploaderId) !== String(userId)) throw new ApiError(403, 'Only the uploader can delete this file');
+
+  await s3.send(new DeleteObjectCommand({ Bucket: env.S3_BUCKET, Key: file.storageKey }));
+  await file.deleteOne();
+}
