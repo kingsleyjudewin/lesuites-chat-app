@@ -10,3 +10,6 @@ router.use(authenticate, messageLimiter);
 
 router.patch('/:id', validate(editMessageSchema), messageController.update);
 router.delete('/:id', messageController.remove);
+router.post('/:id/reactions', validate(reactSchema), messageController.react);
+
+export default router;
