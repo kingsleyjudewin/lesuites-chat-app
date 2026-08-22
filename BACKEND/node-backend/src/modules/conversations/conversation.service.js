@@ -27,3 +27,17 @@ export async function listForUser(userId) {
       ...c.toJSON(),
       lastMessage: last ? { text: previewByIndex.get(i), senderId: last.senderId, createdAt: last.createdAt } : null,
     };
+  });
+}
+
+export async function getOrCreateDirect(userId, otherUserId) {
+  if (userId === otherUserId) throw new ApiError(400, 'Cannot start a conversation with yourself');
+
+  let conversation = await Conversation.findOne({
+    type: CONVERSATION_TYPE.DIRECT,
+    participants: { $all: [userId, otherUserId], $size: 2 },
+  });
+
+  if (!conversation) {
+    conversation = await Conversation.create({ type: CONVERSATION_TYPE.DIRECT, participants: [userId, otherUserId] });
+  }
