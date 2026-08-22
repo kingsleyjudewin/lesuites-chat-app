@@ -72,3 +72,77 @@
                         "gutter": "24px",
                         "panel-padding": "40px"
                     },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Playfair Display"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "title-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["18px", { "lineHeight": "1.5", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(22, 19, 11, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(242, 202, 80, 0.1);
+        }
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .luxury-card:hover {
+            border-color: rgba(242, 202, 80, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(242, 202, 80, 0.05);
+        }
+        .metallic-glint {
+            position: relative;
+            overflow: hidden;
+        }
+        .metallic-glint::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.05) 40%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.05) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: glint 4s infinite linear;
+        }
+        @keyframes glint {
+            0% { transform: translate(-100%, -100%) rotate(45deg); }
+            100% { transform: translate(100%, 100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex font-body-lg overflow-hidden antialiased">
+<!-- Ambient Background Layer -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute inset-0 bg-gradient-to-br from-[#0a0805] via-background to-[#050402]"></div>
+<div class="absolute top-0 left-1/4 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full mix-blend-screen opacity-30"></div>
+</div>
+<!-- SideNavBar (Shared Component Anchor) -->
+<nav class="hidden md:flex flex-col py-panel-padding px-6 space-y-unit bg-surface-container-low/90 backdrop-blur-2xl h-screen w-[15%] fixed left-0 top-0 border-r border-outline-variant/20 shadow-[40px_0_80px_-20px_rgba(0,0,0,0.5)] z-20">
+<!-- Brand Header -->
