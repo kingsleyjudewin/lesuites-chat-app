@@ -10,3 +10,6 @@ router.use(authenticate);
 router.get('/me', userController.getMe);
 router.patch('/me', validate(updateProfileSchema), userController.updateMe);
 router.get('/', validate(listUsersQuerySchema, 'query'), userController.search);
+router.get('/:id', userController.getById);
+
+export default router;
