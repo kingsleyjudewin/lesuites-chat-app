@@ -18,3 +18,9 @@ async def verify_service_signature(request: Request, x_service_timestamp: str = 
 
     # Must sign the raw body bytes exactly as received — reserializing the parsed model would
     # produce a different byte string than what the Node client signed, breaking verification.
+    body = await request.body()
+    payload = f"{x_service_timestamp}.{body.decode('utf-8')}"
+    expected = hmac.new(settings.service_key.encode(), payload.encode(), hashlib.sha256).hexdigest()
+
+    if not hmac.compare_digest(expected, x_service_signature):
+        raise HTTPException(status_code=401, detail="Invalid signature")
