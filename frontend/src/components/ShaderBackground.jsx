@@ -29,3 +29,34 @@ void main() {
     float t = u_time * 0.2;
     vec2 p1 = p;
     for(float i = 1.0; i < 4.0; i++) {
+        p1.x += 0.3 / i * sin(i * 3.0 * p1.y + t);
+        p1.y += 0.3 / i * cos(i * 3.0 * p1.x + t);
+    }
+
+    float noise = hash(uv + t * 0.01) * 0.02;
+
+    float mask = sin(p1.x * 2.0 + p1.y * 2.0 + t) * 0.5 + 0.5;
+    mask = pow(mask, 4.0);
+
+    float goldVein = smoothstep(0.48, 0.5, sin(p1.x * 5.0 + t) * cos(p1.y * 3.0 - t));
+    goldVein *= mask * 0.3;
+
+    vec3 finalColor = mix(obsidian, charcoal, uv.y);
+    finalColor += gold * goldVein;
+    finalColor += noise;
+
+    float vignette = smoothstep(1.5, 0.5, length(p));
+    finalColor *= vignette;
+
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+
+function compileShader(gl, type, source) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  return shader;
+}
+
+export function ShaderBackground() {
+  const canvasRef = useRef(null);
