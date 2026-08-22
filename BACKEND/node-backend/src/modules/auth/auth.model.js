@@ -12,3 +12,7 @@ const refreshTokenSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// TTL index: MongoDB auto-purges the document once expiresAt passes, so revoked/expired tokens don't pile up.
+refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+export const RefreshToken = mongoose.model('RefreshToken', refreshTokenSchema);
