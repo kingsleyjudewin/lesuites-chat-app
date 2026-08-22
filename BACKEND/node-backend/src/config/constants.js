@@ -15,3 +15,11 @@ export const CONNECTION_STATUS = { PENDING: 'pending', ACCEPTED: 'accepted', REJ
 export const REACTION_TYPE = { APPROVED: 'approved', EXECUTIVE: 'executive' };
 
 export const NOTIFICATION_TYPE = {
+  MESSAGE: 'message',
+  BOARDROOM_INVITE: 'boardroom_invite',
+  CONNECTION_REQUEST: 'connection_request',
+  CONNECTION_ACCEPTED: 'connection_accepted',
+};
+
+export const ACTIVITY_TYPE = {
+  JOINED_BOARDROOM: 'joined_boardroom',
