@@ -31,3 +31,13 @@ def decrypt(payload: DecryptRequest):
 @router.post("/encrypt/batch", response_model=EncryptBatchResponse)
 def encrypt_batch(payload: EncryptBatchRequest):
     items = []
+    for text in payload.plaintexts:
+        ciphertext, key_version = aes_service.encrypt(text)
+        items.append(EncryptResponse(ciphertext=ciphertext, keyVersion=key_version))
+    return EncryptBatchResponse(items=items)
+
+
+@router.post("/decrypt/batch", response_model=DecryptBatchResponse)
+def decrypt_batch(payload: DecryptBatchRequest):
+    items = [DecryptResponse(plaintext=aes_service.decrypt(item.ciphertext, item.keyVersion)) for item in payload.items]
+    return DecryptBatchResponse(items=items)
