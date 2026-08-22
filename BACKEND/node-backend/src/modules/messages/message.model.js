@@ -9,3 +9,14 @@ const messageSchema = new mongoose.Schema(
     ciphertext: { type: String, required: true },
     keyVersion: { type: String, required: true },
     status: { type: String, enum: Object.values(MESSAGE_STATUS), default: MESSAGE_STATUS.SENT },
+    readBy: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        seenAt: { type: Date, default: Date.now },
+      },
+    ],
+    reactions: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        type: { type: String, enum: Object.values(REACTION_TYPE) },
+      },
