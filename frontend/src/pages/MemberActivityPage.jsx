@@ -160,7 +160,7 @@ export function MemberActivityPage() {
         </section>
 
         {profile && (
-          <aside className="hidden xl:flex w-[480px] h-full bg-surface-container-low/60 backdrop-blur-3xl border-l border-white/5 flex-col relative z-20">
+          <aside className="fixed inset-0 z-50 w-full h-full bg-surface-container-low/95 backdrop-blur-3xl flex flex-col xl:static xl:inset-auto xl:z-20 xl:w-[480px] xl:h-full xl:bg-surface-container-low/60 xl:border-l xl:border-white/5">
             <button className="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors" onClick={() => setSelectedId(null)} type="button">
               <span className="material-symbols-outlined">close</span>
             </button>

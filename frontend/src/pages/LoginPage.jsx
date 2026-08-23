@@ -164,8 +164,8 @@ export function LoginPage() {
         </div>
       </main>
 
-      <footer className="bg-transparent border-t-[0.5px] border-outline-variant/30 backdrop-blur-xl flex flex-row justify-between items-center px-margin-safe py-4 w-full z-50 mt-auto">
-        <div className="flex items-center space-x-4 text-tertiary font-label-caps text-label-caps">
+      <footer className="bg-transparent border-t-[0.5px] border-outline-variant/30 backdrop-blur-xl flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-center px-margin-safe py-4 w-full z-50 mt-auto text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-4 text-tertiary font-label-caps text-label-caps">
           <span>© 2026 LeSuits Private Circle. Signature Verified.</span>
           <span className="hidden md:flex items-center space-x-1 text-primary/70">
             <span className="material-symbols-outlined text-[14px]">shield</span>

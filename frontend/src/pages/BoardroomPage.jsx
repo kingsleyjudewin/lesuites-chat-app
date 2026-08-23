@@ -21,6 +21,7 @@ export function BoardroomPage() {
   const [filter, setFilter] = useState('');
   const [showCreate, setShowCreate] = useState(false);
   const [showAddMember, setShowAddMember] = useState(false);
+  const [showDetailsMobile, setShowDetailsMobile] = useState(false);
   const [error, setError] = useState('');
   const scrollRef = useRef(null);
 
@@ -49,6 +50,7 @@ export function BoardroomPage() {
   }, [socket, boardrooms]);
 
   useEffect(() => {
+    setShowDetailsMobile(false);
     if (!selectedId) {
       setDetail(null);
       setMessages([]);
@@ -122,12 +124,49 @@ export function BoardroomPage() {
   const membersById = useMemo(() => Object.fromEntries((detail?.members || []).map((m) => [m.userId.id, m.userId])), [detail]);
   const filteredBoardrooms = boardrooms.filter((b) => b.name.toLowerCase().includes(filter.toLowerCase()));
 
+  const detailsContent = detail && (
+    <>
+      <p className="font-body-sm text-body-sm text-on-surface-variant/80 mb-6">{detail.description || 'No description provided.'}</p>
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="font-title-md text-title-md">Members</h4>
+        <span className="font-label-caps text-label-caps bg-surface-container py-1 px-2 rounded-full border border-white/5">{detail.members.length} Total</span>
+      </div>
+      {isOwner && (
+        <button
+          onClick={() => setShowAddMember(true)}
+          type="button"
+          className="w-full mb-4 flex items-center justify-center gap-2 text-primary font-label-caps text-label-caps py-2 rounded-lg border border-primary/30 hover:bg-primary/10"
+        >
+          <span className="material-symbols-outlined text-[16px]">person_add</span>
+          Add Member
+        </button>
+      )}
+      <div className="gold-separator mb-4" />
+      <div className="space-y-4">
+        {detail.members.map((m) => (
+          <div key={m.userId.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
+            <Avatar name={m.userId.username} avatarUrl={m.userId.avatarUrl} size={40} className="border border-outline/20" />
+            <div className="flex-1 min-w-0">
+              <div className="font-title-md text-title-md text-sm truncate">{m.userId.username}</div>
+              <div className="font-label-caps text-label-caps text-primary/70 truncate">{m.userId.title || m.role}</div>
+            </div>
+            {isOwner && m.role !== 'owner' && (
+              <button onClick={() => removeMember(m.userId.id)} type="button" className="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
   return (
     <div className="font-body-lg overflow-hidden flex h-screen text-on-surface bg-surface-container-lowest">
       <Sidebar />
 
-      <main className="ml-80 flex-1 flex h-screen overflow-hidden">
-        <section className="w-96 glass-panel border-r border-white/5 flex flex-col">
+      <main className="md:ml-80 flex-1 flex h-screen overflow-hidden">
+        <section className={`w-full md:w-96 glass-panel border-r border-white/5 flex-col ${selectedId ? 'hidden md:flex' : 'flex'}`}>
           <div className="p-gutter pb-4">
             <h2 className="font-headline-lg text-headline-lg mb-6">Boardrooms</h2>
             <div className="relative mb-6">
@@ -149,7 +188,7 @@ export function BoardroomPage() {
             </button>
           </div>
           <div className="gold-separator mx-gutter mb-4" />
-          <div className="flex-1 overflow-y-auto px-gutter pb-gutter space-y-3">
+          <div className="flex-1 overflow-y-auto px-gutter pb-24 md:pb-gutter space-y-3">
             {filteredBoardrooms.length === 0 && <p className="font-body-sm text-body-sm text-on-surface-variant/60">No boardrooms yet.</p>}
             {filteredBoardrooms.map((b) => (
               <div
@@ -169,7 +208,7 @@ export function BoardroomPage() {
           </div>
         </section>
 
-        <section className="flex-1 flex flex-col relative">
+        <section className={`flex-1 flex-col relative ${selectedId ? 'flex' : 'hidden md:flex'}`}>
           {!detail ? (
             <div className="flex-1 flex items-center justify-center text-on-surface-variant/60 font-title-md text-title-md">
               Select a boardroom to begin.
@@ -178,6 +217,14 @@ export function BoardroomPage() {
             <>
               <header className="h-20 glass-panel border-b border-white/5 px-gutter flex items-center justify-between z-10">
                 <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    aria-label="Back to boardrooms"
+                    className="md:hidden text-on-surface-variant hover:text-primary transition-colors"
+                    onClick={() => setSelectedId(null)}
+                  >
+                    <span className="material-symbols-outlined">arrow_back</span>
+                  </button>
                   <div className="w-10 h-10 rounded-lg bg-surface-container-high border border-outline/30 flex items-center justify-center">
                     <span className="material-symbols-outlined text-primary">corporate_fare</span>
                   </div>
@@ -186,6 +233,14 @@ export function BoardroomPage() {
                     <div className="font-label-caps text-label-caps text-on-surface-variant/70 mt-1">{onlineCount} Members Online</div>
                   </div>
                 </div>
+                <button
+                  type="button"
+                  aria-label="Boardroom details"
+                  className="md:hidden text-on-surface-variant hover:text-primary transition-colors"
+                  onClick={() => setShowDetailsMobile(true)}
+                >
+                  <span className="material-symbols-outlined">info</span>
+                </button>
               </header>
 
               <div ref={scrollRef} className="flex-1 overflow-y-auto p-gutter space-y-6 flex flex-col relative z-0">
@@ -226,7 +281,7 @@ export function BoardroomPage() {
 
               {error && <p className="px-gutter font-body-sm text-body-sm text-error">{error}</p>}
 
-              <div className="p-gutter pt-0 relative z-10">
+              <div className="p-gutter pt-0 pb-24 md:pb-2 relative z-10">
                 <form onSubmit={sendMessage} className="glass-panel rounded-xl p-2 flex items-end gap-2 border border-white/10 focus-within:border-primary/50 transition-colors">
                   <textarea
                     className="w-full bg-transparent border-none focus:ring-0 resize-none max-h-32 min-h-[44px] py-3 text-on-surface font-body-lg placeholder-on-surface-variant/50"
@@ -248,41 +303,10 @@ export function BoardroomPage() {
         </section>
 
         {detail && (
-          <section className="w-80 glass-panel border-l border-white/5 flex flex-col">
+          <section className="hidden md:flex w-80 glass-panel border-l border-white/5 flex-col">
             <div className="p-gutter overflow-y-auto flex-1">
               <h3 className="font-headline-lg text-headline-lg mb-2">Details</h3>
-              <p className="font-body-sm text-body-sm text-on-surface-variant/80 mb-6">{detail.description || 'No description provided.'}</p>
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="font-title-md text-title-md">Members</h4>
-                <span className="font-label-caps text-label-caps bg-surface-container py-1 px-2 rounded-full border border-white/5">{detail.members.length} Total</span>
-              </div>
-              {isOwner && (
-                <button
-                  onClick={() => setShowAddMember(true)}
-                  type="button"
-                  className="w-full mb-4 flex items-center justify-center gap-2 text-primary font-label-caps text-label-caps py-2 rounded-lg border border-primary/30 hover:bg-primary/10"
-                >
-                  <span className="material-symbols-outlined text-[16px]">person_add</span>
-                  Add Member
-                </button>
-              )}
-              <div className="gold-separator mb-4" />
-              <div className="space-y-4">
-                {detail.members.map((m) => (
-                  <div key={m.userId.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
-                    <Avatar name={m.userId.username} avatarUrl={m.userId.avatarUrl} size={40} className="border border-outline/20" />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-title-md text-title-md text-sm truncate">{m.userId.username}</div>
-                      <div className="font-label-caps text-label-caps text-primary/70 truncate">{m.userId.title || m.role}</div>
-                    </div>
-                    {isOwner && m.role !== 'owner' && (
-                      <button onClick={() => removeMember(m.userId.id)} type="button" className="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
-                        <span className="material-symbols-outlined text-[18px]">close</span>
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
+              {detailsContent}
             </div>
             <div className="p-gutter border-t border-white/5">
               <button onClick={leaveBoardroom} type="button" className="w-full flex items-center justify-center gap-2 text-error font-title-md text-title-md py-3 rounded-lg hover:bg-error/10 transition-colors border border-transparent hover:border-error/20">
@@ -293,6 +317,20 @@ export function BoardroomPage() {
           </section>
         )}
       </main>
+
+      {showDetailsMobile && detail && (
+        <Modal title="Boardroom Details" onClose={() => setShowDetailsMobile(false)}>
+          {detailsContent}
+          <button
+            onClick={leaveBoardroom}
+            type="button"
+            className="w-full mt-6 flex items-center justify-center gap-2 text-error font-title-md text-title-md py-3 rounded-lg hover:bg-error/10 transition-colors border border-error/20"
+          >
+            <span className="material-symbols-outlined">logout</span>
+            Leave Boardroom
+          </button>
+        </Modal>
+      )}
 
       {showCreate && (
         <CreateBoardroomModal

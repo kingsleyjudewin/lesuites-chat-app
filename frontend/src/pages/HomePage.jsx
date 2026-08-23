@@ -40,7 +40,7 @@ export function HomePage() {
 
       <Sidebar />
 
-      <main className="md:ml-80 w-full min-h-screen relative z-10 flex flex-col justify-center items-center px-margin-safe py-panel-padding">
+      <main className="md:ml-80 w-full min-h-screen relative z-10 flex flex-col justify-center items-center px-margin-safe pt-panel-padding pb-24 md:pb-panel-padding">
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center text-center">
           <div className="relative w-48 h-48 mb-12 rounded-full glass-panel flex items-center justify-center shadow-2xl shadow-primary/5 border border-primary/20">
             <span className="font-display-lg text-display-lg text-primary">LS</span>

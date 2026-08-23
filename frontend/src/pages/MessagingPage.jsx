@@ -210,7 +210,11 @@ export function MessagingPage() {
     <div className="text-on-surface font-body-lg overflow-hidden h-screen flex bg-surface-container-lowest">
       <Sidebar />
 
-      <aside className="w-80 h-screen fixed left-80 top-0 flex flex-col py-panel-padding bg-surface-container-low backdrop-blur-xl shadow-2xl z-20 border-r border-outline-variant/30">
+      <aside
+        className={`w-full md:w-80 h-screen md:fixed md:left-80 top-0 flex-col py-panel-padding bg-surface-container-low backdrop-blur-xl shadow-2xl z-20 border-r border-outline-variant/30 ${
+          selected ? 'hidden md:flex' : 'flex'
+        }`}
+      >
         <div className="px-gutter mb-6">
           <div className="glass-panel rounded-full flex items-center px-4 py-3 border border-outline-variant">
             <span className="material-symbols-outlined text-on-surface-variant mr-3">search</span>
@@ -224,7 +228,7 @@ export function MessagingPage() {
         </div>
         <div className="gold-separator mx-gutter mb-4" />
 
-        <nav className="flex-1 overflow-y-auto px-4 space-y-2">
+        <nav className="flex-1 overflow-y-auto px-4 space-y-2 pb-20 md:pb-0">
           {query.trim() ? (
             memberResults.map((m) => (
               <button
@@ -276,7 +280,11 @@ export function MessagingPage() {
         </nav>
       </aside>
 
-      <main className="ml-[40rem] flex-1 flex flex-col relative bg-surface-container-lowest h-screen overflow-hidden">
+      <main
+        className={`${
+          selected ? 'flex' : 'hidden md:flex'
+        } flex-1 flex-col relative bg-surface-container-lowest h-screen overflow-hidden md:ml-[40rem]`}
+      >
         {!selected ? (
           <div className="flex-1 flex items-center justify-center text-on-surface-variant/60 font-title-md text-title-md">
             Select a conversation to begin.
@@ -285,6 +293,14 @@ export function MessagingPage() {
           <>
             <header className="h-20 px-gutter flex justify-between items-center border-b border-outline-variant/30 bg-surface-container-lowest/80 backdrop-blur-md z-10 flex-shrink-0">
               <div className="flex items-center">
+                <button
+                  type="button"
+                  aria-label="Back to conversations"
+                  className="md:hidden mr-3 text-on-surface-variant hover:text-primary transition-colors"
+                  onClick={() => setSelectedId(null)}
+                >
+                  <span className="material-symbols-outlined">arrow_back</span>
+                </button>
                 <div className="relative w-10 h-10 mr-4">
                   {otherStatus === 'online' && <div className="presence-ring" />}
                   <Avatar name={title} avatarUrl={other?.avatarUrl} size={40} className="border border-primary/50" />
@@ -383,7 +399,7 @@ export function MessagingPage() {
 
             {error && <p className="px-gutter font-body-sm text-body-sm text-error">{error}</p>}
 
-            <div className="px-gutter pb-8 z-20">
+            <div className="px-gutter pb-24 md:pb-8 z-20">
               <form
                 onSubmit={sendMessage}
                 className="w-full max-w-3xl mx-auto glass-panel rounded-full p-2 pl-6 flex items-center border border-outline-variant shadow-2xl transition-all duration-300 bg-surface-container-low/90"

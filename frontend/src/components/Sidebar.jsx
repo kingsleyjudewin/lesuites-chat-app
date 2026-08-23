@@ -14,7 +14,8 @@ export function Sidebar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="hidden md:flex h-screen w-80 fixed left-0 top-0 z-40 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/5 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.5)] flex-col py-panel-padding">
+    <>
+      <nav className="hidden md:flex h-screen w-80 fixed left-0 top-0 z-40 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/5 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.5)] flex-col py-panel-padding">
       <div className="px-8 mb-10 flex items-center gap-4">
         <Avatar name={user?.username} avatarUrl={user?.avatarUrl} size={48} className="border border-outline-variant/30" />
         <div className="min-w-0">
@@ -62,6 +63,27 @@ export function Sidebar() {
           Sign Out
         </button>
       </div>
-    </nav>
+      </nav>
+
+      <nav className="flex md:hidden fixed bottom-0 left-0 right-0 h-16 z-40 bg-surface-container-lowest/95 backdrop-blur-2xl border-t border-white/5 items-center justify-around pb-[env(safe-area-inset-bottom)]">
+        {NAV_ITEMS.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.end}
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center gap-0.5 flex-1 h-full ${isActive ? 'text-primary' : 'text-on-surface-variant/60'}`
+            }
+          >
+            <span className="material-symbols-outlined text-[22px]">{item.icon}</span>
+            <span className="font-label-caps text-[9px] tracking-wide">{item.label.split(' ')[0]}</span>
+          </NavLink>
+        ))}
+        <button onClick={logout} type="button" className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-on-surface-variant/60">
+          <span className="material-symbols-outlined text-[22px]">logout</span>
+          <span className="font-label-caps text-[9px] tracking-wide">Sign Out</span>
+        </button>
+      </nav>
+    </>
   );
 }
