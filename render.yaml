@@ -34,7 +34,7 @@ services:
       - key: S3_BUCKET
         value: ""
       - key: S3_REGION
-        value: ""
+        value: us-east-1
       - key: S3_ENDPOINT
         value: ""
       - key: S3_ACCESS_KEY_ID
