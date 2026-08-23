@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: lesuites-chat-app
+    runtime: docker
+    rootDir: BACKEND
+    dockerfilePath: Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://your-frontend.vercel.app
+      - key: COOKIE_SECRET
+        sync: false
+      # ENCRYPTION_SERVICE_URL is baked into the Dockerfile (http://127.0.0.1:8001) —
+      # both processes run in this one container, no separate service needed.
+      - key: ENCRYPTION_SERVICE_KEY
+        sync: false
+      - key: SERVICE_KEY
+        sync: false
+      - key: MASTER_KEY_B64
+        sync: false
+      - key: ACTIVE_KEY_VERSION
+        value: v1
+      - key: SIGNATURE_WINDOW_SECONDS
+        value: 60
+      # S3 is optional (env.js treats these as optional) — file uploads won't work
+      # until you create a real bucket and fill these in, but the app runs fine without them.
+      - key: S3_BUCKET
+        value: ""
+      - key: S3_REGION
+        value: ""
+      - key: S3_ENDPOINT
+        value: ""
+      - key: S3_ACCESS_KEY_ID
+        value: ""
+      - key: S3_SECRET_ACCESS_KEY
+        value: ""
